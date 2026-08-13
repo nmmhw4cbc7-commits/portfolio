@@ -96,13 +96,13 @@ function Elevation() {
           strokeLinecap="round"
         />
         <line x1="0" y1="139" x2="600" y2="139" stroke="var(--color-border)" strokeWidth="2" />
-        {[
+        {([
           [0, 120],
           [140, 92],
           [260, 58],
           [390, 46],
           [600, 8],
-        ].map(([x, y], i) => (
+        ] as const).map(([x, y], i) => (
           <circle
             key={i}
             cx={Math.min(Math.max(x, 5), 595)}
