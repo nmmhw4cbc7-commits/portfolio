@@ -110,7 +110,7 @@ export const projects: Project[] = [
       { label: "Lime Adblocker", href: "https://adblocker-lime.vercel.app/" },
     ],
     difficulty: "Intermediate",
-    stack: ["Flutter", "Dart", "Cross-platform"],
+    stack: ["Chrome Extension", "Cross-platform"],
   },
   {
     tag: "Fullstack",
