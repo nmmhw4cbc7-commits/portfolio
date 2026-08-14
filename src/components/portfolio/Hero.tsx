@@ -18,11 +18,14 @@ export function Hero() {
           Available for freelance &amp; collaborations
         </span>
 
-        <h1 className="mt-7 font-display text-[clamp(2.6rem,7.5vw,5rem)] leading-[0.95] text-primary">
-          Software that doesn't just
-          <br />
-          run — it <em className="not-italic underline decoration-accent decoration-[6px] underline-offset-[10px]">holds up</em>.
+        <h1 className="mx-auto mt-7 max-w-3xl font-display text-[clamp(2.6rem,7.5vw,5rem)] leading-[0.98] text-primary">
+          Software that doesn't just run —{" "}
+          <em className="not-italic underline decoration-accent decoration-[6px] underline-offset-[10px]">
+            it holds up
+          </em>
+          .
         </h1>
+
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           {profile.intro}
