@@ -5,7 +5,7 @@ export const profile = {
   email: "allgemein@philipp-dachtler.de",
   github: "https://github.com/",
   intro:
-    "I plan systems the way you plan a tour: know the terrain, pick a clean line, build something that holds up when the weather turns. Fullstack web apps, cross-platform mobile software and the network infrastructure underneath.",
+    "I plan systems the way you plan a tour: know the terrain, pick a clean line, build something that holds up when the weather turns. Fullstack web apps, cross-platform mobile software and the ne[...]",
 };
 
 export const tourStats = [
@@ -104,11 +104,10 @@ export const projects: Project[] = [
   {
     tag: "Flutter",
     status: "Published",
-    title: "Attendix",
-    text: "Attendance tracking for clubs and community groups. Fast entry, clean overviews, optimised for seamless cross-platform use.",
+    title: "Lime Adblocker",
+    text: "A lightweight browser adblocker focused on performance and simplicity.",
     links: [
-      { label: "App Store", href: "#" },
-      { label: "Play Store", href: "#" },
+      { label: "Lime Adblocker", href: "https://adblocker-lime.vercel.app/" },
     ],
     difficulty: "Intermediate",
     stack: ["Flutter", "Dart", "Cross-platform"],
