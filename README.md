@@ -1,26 +1,72 @@
-# Philipp Dachtler Portfolio
+# philipp-dachtler.de
 
-are you able to create native apps in dart and in flutter framework?
+Persönliches Portfolio von Philipp Dachtler – Übersicht über Projekte, Skills und Kontaktmöglichkeiten.
 
-This project was built with [Lovable](https://lovable.dev).
+🔗 Live: [philipp-dachtler.de](https://philipp-dachtler.de)
 
-**Live app**: https://dart-app-creations.lovable.app
+## ✨ Features
 
-## Build with Lovable
+- Übersicht über Projekte & Arbeiten
+- Über-mich-Bereich mit Skills
+- Kontaktmöglichkeit
+- Responsive Design für Desktop & Mobile
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/6855d557-a989-4b9d-950a-f3e06e4df55b).
+## 🛠️ Tech-Stack
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **Sprache:** TypeScript
+- **Deployment:** Vercel *(anpassen falls anders)*
+- **Styling:** *(z. B. TailwindCSS – bitte anpassen)*
 
-## Development
+## 🚀 Getting Started
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+### Voraussetzungen
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+- [Node.js](https://nodejs.org/) (empfohlen: aktuelle LTS-Version)
+- npm oder yarn
+
+### Installation
+
+```bash
+git clone https://github.com/nmmhw4cbc7-commits/philipp-dachtler.de.git
+cd philipp-dachtler.de
+npm install
+```
+
+### Entwicklung
+
+```bash
 npm run dev
 ```
+
+Die Seite läuft danach lokal unter `http://localhost:3000` *(Port ggf. anpassen)*.
+
+### Build
+
+```bash
+npm run build
+```
+
+## 📁 Projektstruktur
+
+```
+philipp-dachtler.de/
+├── src/            # Quellcode
+├── public/         # Statische Assets (Bilder, Icons etc.)
+├── package.json
+└── README.md
+```
+
+*(Struktur bei Bedarf an das tatsächliche Setup anpassen)*
+
+## 📦 Deployment
+
+Die Seite wird automatisch über Vercel deployed, sobald auf den `main`-Branch gepusht wird.
+
+## 📄 Lizenz
+
+Alle Rechte vorbehalten – privates Portfolio-Projekt.
+
+## 📬 Kontakt
+
+Philipp Dachtler
+Website: [philipp-dachtler.de](https://philipp-dachtler.de)
