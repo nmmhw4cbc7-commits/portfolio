@@ -52,10 +52,7 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto mt-16 max-w-5xl px-4">
-        <BrowserCard />
-      </div>
 
-      <div className="relative mx-auto mt-14 max-w-5xl px-4">
         <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {tourStats.map((s) => (
             <div key={s.label} className="rounded-2xl border-2 border-primary/15 bg-card px-5 py-6">
