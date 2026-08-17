@@ -77,6 +77,7 @@ export type Project = {
   links: { label: string; href: string }[];
   difficulty: "Easy" | "Intermediate" | "Expert";
   stack: string[];
+  icon: "leaf" | "compass" | "shield" | "mail";
 };
 
 export const projects: Project[] = [
@@ -88,6 +89,7 @@ export const projects: Project[] = [
     links: [{ label: "galabau-diwold.de", href: "https://galabau-diwold.de" }],
     difficulty: "Intermediate",
     stack: ["Web", "Responsive", "Design"],
+    icon: "leaf",
   },
   {
     tag: "Flutter",
@@ -100,6 +102,7 @@ export const projects: Project[] = [
     ],
     difficulty: "Expert",
     stack: ["Flutter", "Dart", "iOS", "Android"],
+    icon: "compass",
   },
   {
     tag: "Flutter",
@@ -111,6 +114,7 @@ export const projects: Project[] = [
     ],
     difficulty: "Intermediate",
     stack: ["Chrome Extension", "Cross-platform"],
+    icon: "shield",
   },
   {
     tag: "Fullstack",
@@ -120,8 +124,10 @@ export const projects: Project[] = [
     links: [],
     difficulty: "Expert",
     stack: ["Fullstack", "Node.js", "TypeScript"],
+    icon: "mail",
   },
 ];
+
 
 export type Kit = { group: string; note: string; items: { name: string; level: number; tag: string }[] };
 
