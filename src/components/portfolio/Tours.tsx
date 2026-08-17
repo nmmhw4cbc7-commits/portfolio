@@ -24,6 +24,7 @@ export function Tours() {
 }
 
 function TourCard({ project }: { project: Project }) {
+  const Icon = icons[project.icon];
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-primary/12 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_36px_70px_-50px_oklch(0.45_0.28_269)]">
       <div className="arc-gradient grain relative h-32 p-4">
@@ -35,7 +36,11 @@ function TourCard({ project }: { project: Project }) {
             {project.status}
           </span>
         </div>
+        <div className="absolute bottom-4 right-5 flex size-12 items-center justify-center rounded-2xl bg-card/25 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+          <Icon className="size-6 text-primary-foreground" strokeWidth={2.2} aria-hidden />
+        </div>
       </div>
+
 
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-2xl font-extrabold text-primary">{project.title}</h3>
