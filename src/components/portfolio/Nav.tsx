@@ -45,9 +45,26 @@ export function Nav() {
         </div>
         <a
           href="#contact"
-          className="ml-auto rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] sm:ml-2"
+          aria-label="Let's talk"
+          className="ml-auto rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] sm:ml-2 group inline-flex items-center"
         >
-          Let's talk
+          {/* Paper airplane SVG */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-rotate-6"
+            aria-hidden
+          >
+            <path d="M22 2L11 13" />
+            <path d="M22 2L15 22l-4-9-9-4 20-7z" />
+          </svg>
+
+          <span className="ml-3">Let's talk</span>
         </a>
       </nav>
     </header>
