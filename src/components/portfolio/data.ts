@@ -1,7 +1,7 @@
 export const profile = {
   name: "Philipp Dachtler",
   role: "Fullstack Developer & IT System Integration",
-  base: "Schifferstadt · Mannheim, Germany",
+  base: "Schifferstadt, Germany",
   email: "allgemein@philipp-dachtler.de",
   github: "https://github.com/",
   intro:
@@ -9,7 +9,7 @@ export const profile = {
 };
 
 export const tourStats = [
-  { label: "Home base", value: "Mannheim", unit: "Rhein-Neckar" },
+  { label: "Home base", value: "Schifferstadt", unit: "Rhein-Neckar" },
   { label: "Apps shipped", value: "3", unit: "iOS + Android" },
   { label: "Main terrain", value: "Fullstack", unit: "+ Infrastructure" },
   { label: "Status", value: "Open", unit: "for collaborations" },
