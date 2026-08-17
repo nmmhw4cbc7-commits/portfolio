@@ -1,5 +1,9 @@
+import { Leaf, Compass, ShieldCheck, Mail } from "lucide-react";
 import { projects, type Project } from "./data";
 import { SectionHead } from "./Trail";
+
+const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail };
+
 
 export function Tours() {
   return (
