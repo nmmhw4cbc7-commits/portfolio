@@ -1,0 +1,100 @@
+/* Material 3 Tokens (seed-based tokens recommended)
+   File: src/m3-tokens.css
+   Provides --md-sys-* CSS variables used across the project. 
+   This is a pure design token file (colors, elevation, motion) and supports prefers-color-scheme: dark.
+*/
+:root {
+  /* Seed fallback (as RGB) - optional to replace dynamically via JS */
+  --md-sys-seed: 26 115 232;
+
+  /* Primary */
+  --md-sys-primary: rgb(26 115 232);
+  --md-sys-on-primary: rgb(255 255 255);
+  --md-sys-primary-container: rgb(219 234 255);
+  --md-sys-on-primary-container: rgb(0 39 86);
+
+  /* Secondary */
+  --md-sys-secondary: rgb(0 137 123);
+  --md-sys-on-secondary: rgb(255 255 255);
+  --md-sys-secondary-container: rgb(200 247 240);
+  --md-sys-on-secondary-container: rgb(0 41 39);
+
+  /* Tertiary */
+  --md-sys-tertiary: rgb(125 89 255);
+  --md-sys-on-tertiary: rgb(255 255 255);
+  --md-sys-tertiary-container: rgb(235 225 255);
+  --md-sys-on-tertiary-container: rgb(32 5 82);
+
+  /* Error */
+  --md-sys-error: rgb(186 26 26);
+  --md-sys-on-error: rgb(255 255 255);
+  --md-sys-error-container: rgb(255 218 214);
+  --md-sys-on-error-container: rgb(65 0 0);
+
+  /* Surfaces */
+  --md-sys-surface: rgb(255 255 255);
+  --md-sys-on-surface: rgb(10 10 10);
+  --md-sys-surface-variant: rgb(245 246 250);
+  --md-sys-on-surface-variant: rgb(48 52 57);
+
+  /* Surface tint used for tonal elevation */
+  --md-sys-surface-tint: rgb(26 115 232);
+  --md-sys-outline: rgb(112 116 121);
+
+  /* Elevation overlay alpha values */
+  --md-elev-1-alpha: 0.05;
+  --md-elev-2-alpha: 0.08;
+  --md-elev-3-alpha: 0.11;
+
+  /* Motion tokens */
+  --md-motion-duration-short: 150ms;
+  --md-motion-duration-medium: 200ms;
+  --md-motion-duration-long: 300ms;
+  --md-motion-easing-standard: cubic-bezier(.2,.0,.0,1);
+  --md-motion-easing-emphasized: cubic-bezier(.2,.0,.1,1);
+
+  /* Border radius tokens */
+  --md-radius-sm: 4px;
+  --md-radius-md: 12px;
+  --md-radius-lg: 16px;
+}
+
+/* Dark theme fallback via prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-surface: rgb(18 18 18);
+    --md-sys-on-surface: rgb(230 230 230);
+    --md-sys-surface-variant: rgb(26 28 31);
+    --md-sys-on-surface-variant: rgb(180 180 185);
+
+    --md-sys-primary: rgb(129 175 255);
+    --md-sys-on-primary: rgb(0 28 68);
+    --md-sys-surface-tint: rgb(129 175 255);
+
+    --md-elev-1-alpha: 0.06;
+    --md-elev-2-alpha: 0.09;
+    --md-elev-3-alpha: 0.12;
+  }
+}
+
+/* Utility: tonal elevation overlay using surface tint.
+   Usage: add class .md-elev-1/.md-elev-2/.md-elev-3 and ensure element is position:relative
+*/
+.md-elev-1 { box-shadow: 0 1px 2px rgba(6,24,44,0.04); }
+.md-elev-2 { box-shadow: 0 6px 20px rgba(6,24,44,0.08); }
+.md-elev-3 { box-shadow: 0 12px 40px rgba(6,24,44,0.12); }
+
+.md-elev-1::after,
+.md-elev-2::after,
+.md-elev-3::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+}
+
+/* State layer helper: use as pseudo-element overlay for hover/pressed/focus
+   Example: .btn::after { background: var(--md-sys-on-primary); opacity: 0; }
+*/
