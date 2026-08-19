@@ -1,0 +1,62 @@
+:root{
+  --font-family: "Outfit", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  /* Display */
+  --display-large-size: 3.5625rem;  /* 57px */
+  --display-medium-size: 2.8125rem; /* 45px */
+  --display-small-size: 2.25rem;    /* 36px */
+  /* Headline */
+  --headline-large-size: 2rem;   /*32px*/
+  --headline-medium-size: 1.75rem;/*28px*/
+  --headline-small-size: 1.5rem;  /*24px*/
+  /* Title */
+  --title-large-size: 1.375rem; /*22px*/
+  --title-medium-size: 1rem;    /*16px*/
+  --title-small-size: 0.875rem; /*14px*/
+  /* Body */
+  --body-large-size: 1rem;   /*16px*/
+  --body-medium-size: 0.875rem; /*14px*/
+  /* Label */
+  --label-large-size: 0.875rem; /*14px*/
+  --label-medium-size: 0.75rem; /*12px*/
+  --label-small-size: 0.6875rem; /*11px*/
+  --lh-display: 1.05;
+  --lh-headline: 1.15;
+  --lh-title: 1.2;
+  --lh-body: 1.5;
+}
+
+/* Base mapping to material tokens */
+body {
+  font-family: var(--font-family);
+  color: var(--md-sys-on-surface);
+  background: var(--md-sys-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display */
+.display-large{ font-size:var(--display-large-size); line-height:var(--lh-display); font-weight:400; }
+.display-medium{ font-size:var(--display-medium-size); line-height:var(--lh-display); font-weight:400; }
+.display-small{ font-size:var(--display-small-size); line-height:var(--lh-display); font-weight:400; }
+
+/* Headline */
+.headline-large{ font-size:var(--headline-large-size); line-height:var(--lh-headline); font-weight:400; }
+.headline-medium{ font-size:var(--headline-medium-size); line-height:var(--lh-headline); font-weight:400; }
+.headline-small{ font-size:var(--headline-small-size); line-height:var(--lh-headline); font-weight:500; }
+
+/* Title */
+.title-large{ font-size:var(--title-large-size); line-height:var(--lh-title); font-weight:500; }
+.title-medium{ font-size:var(--title-medium-size); line-height:var(--lh-title); font-weight:500; }
+.title-small{ font-size:var(--title-small-size); line-height:var(--lh-title); font-weight:600; }
+
+/* Body */
+.body-large{ font-size:var(--body-large-size); line-height:var(--lh-body); font-weight:400; }
+.body-medium{ font-size:var(--body-medium-size); line-height:var(--lh-body); font-weight:400; }
+
+/* Label */
+.label-large{ font-size:var(--label-large-size); line-height:1; font-weight:500; }
+.label-medium{ font-size:var(--label-medium-size); line-height:1; font-weight:500; }
+.label-small{ font-size:var(--label-small-size); line-height:1; font-weight:600; }
+
+/* Accessibility tip: map semantic headings to tokens in your templates */
+h1 { font-family: var(--font-family); }
+
