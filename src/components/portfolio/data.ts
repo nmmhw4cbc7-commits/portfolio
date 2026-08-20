@@ -5,7 +5,7 @@ export const profile = {
   email: "allgemein@philipp-dachtler.de",
   github: "https://github.com/",
   intro:
-    "I plan systems the way you plan a tour: know the terrain, pick a clean line, build something that holds up when the weather turns. Fullstack web apps, cross-platform mobile software and the ne[...]",
+    "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.",
 };
 
 export const tourStats = [
