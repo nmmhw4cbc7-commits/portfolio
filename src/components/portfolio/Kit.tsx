@@ -2,26 +2,26 @@ import { SectionHead } from "./Trail";
 
 export function Kit() {
   const languages = [
-    { name: "JavaScript", icon: "🟨" },
-    { name: "TypeScript", icon: "🔵" },
-    { name: "Python", icon: "🐍" },
-    { name: "Java", icon: "☕" },
-    { name: "C#", icon: "♯" },
+    { name: "JavaScript", icon: "devicon-javascript-plain" },
+    { name: "TypeScript", icon: "devicon-typescript-plain" },
+    { name: "Python", icon: "devicon-python-plain" },
+    { name: "Java", icon: "devicon-java-plain" },
+    { name: "C#", icon: "devicon-csharp-plain" },
   ];
 
   const frameworks = [
-    { name: "React", icon: "⚛️" },
-    { name: "Flutter", icon: "🎨" },
-    { name: "Node.js", icon: "🟢" },
-    { name: "Swift", icon: "🍎" },
-    { name: "Docker", icon: "🐳" },
+    { name: "React", icon: "devicon-react-original" },
+    { name: "Flutter", icon: "devicon-flutter-plain" },
+    { name: "Node.js", icon: "devicon-nodejs-plain" },
+    { name: "Swift", icon: "devicon-swift-plain" },
+    { name: "Docker", icon: "devicon-docker-plain" },
   ];
 
   const systems = [
-    { name: "macOS", icon: "🍎" },
-    { name: "Linux", icon: "🐧" },
-    { name: "Git", icon: "🌳" },
-    { name: "Cloud", icon: "☁️" },
+    { name: "macOS", icon: "devicon-apple-original" },
+    { name: "Linux", icon: "devicon-linux-plain" },
+    { name: "Git", icon: "devicon-git-plain" },
+    { name: "VS Code", icon: "devicon-vscode-plain" },
   ];
 
   const allTechs = [...languages, ...frameworks, ...systems];
@@ -29,6 +29,10 @@ export function Kit() {
 
   return (
     <section id="kit" className="bg-surface-container-low py-20 sm:py-24">
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css"
+      />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHead
           title="The toolkit"
@@ -47,15 +51,18 @@ export function Kit() {
             .scroll-banner:hover {
               animation-play-state: paused;
             }
+            .devicon {
+              font-size: 1.75rem;
+            }
           `}</style>
 
           <div className="scroll-banner flex gap-6 whitespace-nowrap px-4">
             {doubled.map((tech, idx) => (
               <div
                 key={idx}
-                className="md-chip md-chip-tonal label-medium shrink-0 flex items-center gap-2 px-4 py-2"
+                className="md-chip md-chip-tonal label-medium shrink-0 flex items-center gap-3 px-4 py-2"
               >
-                <span className="text-lg">{tech.icon}</span>
+                <i className={`devicon ${tech.icon} colored`}></i>
                 <span className="text-on-surface">{tech.name}</span>
               </div>
             ))}
