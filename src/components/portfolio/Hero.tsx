@@ -5,11 +5,6 @@ export function Hero() {
   return (
     <section id="top" className="bg-surface pb-16 pt-28 sm:pt-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <span className="md-chip md-chip-tonal">
-          <span className="size-2 rounded-full bg-primary" />
-          Available for freelance &amp; collaborations
-        </span>
-
         <h1 className="mt-8 max-w-4xl display-large text-on-surface">
           Software that doesn't just run —{" "}
           <span className="text-primary">it holds up</span>.
