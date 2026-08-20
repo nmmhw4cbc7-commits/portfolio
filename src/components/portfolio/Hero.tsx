@@ -22,8 +22,6 @@ export function Hero() {
             Get in touch
           </a>
         </div>
-
-        <p className="mt-6 label-large text-on-surface-variant">{profile.base}</p>
       </div>
 
       <div className="mx-auto mt-12 max-w-6xl px-4 sm:px-6">
