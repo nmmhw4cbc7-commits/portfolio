@@ -2,40 +2,43 @@ import { stages } from "./data";
 
 export function Trail() {
   return (
-    <section id="route" className="mx-auto max-w-5xl px-6 py-24">
+    <section id="route" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
       <SectionHead
         title="The path so far"
         sub="Education, training and where things are heading — infrastructure on one side, software craft on the other."
       />
 
-      <ol className="mt-12 border-t border-border">
+      <ol className="mt-12 grid gap-4">
         {stages.map((s) => (
           <li
             key={s.title}
-            className={`grid gap-4 border-b border-border py-8 sm:grid-cols-[180px_1fr] ${
-              s.current ? "bg-foreground px-6 text-background" : ""
+            data-animate="scroll"
+            className={`state-layer grid gap-4 rounded-lg p-6 sm:grid-cols-[200px_1fr] ${
+              s.current
+                ? "bg-primary-container text-on-primary-container"
+                : "md-card-outlined text-on-surface"
             }`}
           >
-            <div className="flex flex-row items-baseline gap-3 sm:flex-col sm:gap-1">
-              <span className="font-display text-base font-bold">{s.year}</span>
+            <div className="flex flex-row items-baseline gap-3 sm:flex-col sm:gap-2">
+              <span className="title-medium">{s.year}</span>
               <span
-                className={`text-xs ${s.current ? "text-background/70" : "text-muted-foreground"}`}
+                className={`md-chip ${s.current ? "" : "md-chip-tonal"} label-medium`}
               >
                 {s.kind}
               </span>
             </div>
             <div>
-              <h3 className="font-display text-xl font-bold">{s.title}</h3>
+              <h3 className="title-large">{s.title}</h3>
               <p
-                className={`text-sm font-medium ${
-                  s.current ? "text-background/80" : "text-foreground"
+                className={`mt-1 body-medium ${
+                  s.current ? "text-on-primary-container" : "text-on-surface-variant"
                 }`}
               >
                 {s.place}
               </p>
               <p
-                className={`mt-3 max-w-2xl text-sm leading-relaxed ${
-                  s.current ? "text-background/80" : "text-muted-foreground"
+                className={`mt-3 max-w-2xl body-medium ${
+                  s.current ? "text-on-primary-container" : "text-on-surface-variant"
                 }`}
               >
                 {s.text}
@@ -45,7 +48,7 @@ export function Trail() {
         ))}
       </ol>
 
-      <div className="mt-10 grid gap-10 sm:grid-cols-2">
+      <div className="mt-8 grid gap-4 md:grid-cols-2">
         <Philosophy
           title="Reliability & usability"
           text="I build with a strict focus on practicality. Rather than over-engineering, I make clean, user-centric tools that solve a real problem and keep working."
@@ -61,9 +64,12 @@ export function Trail() {
 
 function Philosophy({ title, text }: { title: string; text: string }) {
   return (
-    <div className="border-l border-border pl-5">
-      <h4 className="font-display text-lg font-bold text-foreground">{title}</h4>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+    <div
+      className="md-card state-layer rounded-xl bg-surface-container p-6"
+      data-animate="scroll"
+    >
+      <h4 className="title-large text-on-surface">{title}</h4>
+      <p className="mt-3 body-medium text-on-surface-variant">{text}</p>
     </div>
   );
 }
@@ -78,17 +84,13 @@ export function SectionHead({
   invert?: boolean;
 }) {
   return (
-    <div className="max-w-2xl">
-      <h2
-        className={`font-display text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-[1.1] ${
-          invert ? "text-background" : "text-foreground"
-        }`}
-      >
+    <div className="max-w-2xl" data-animate="scroll">
+      <h2 className={`display-small ${invert ? "text-inverse-on-surface" : "text-on-surface"}`}>
         {title}
       </h2>
       <p
-        className={`mt-4 text-base leading-relaxed ${
-          invert ? "text-background/80" : "text-muted-foreground"
+        className={`mt-4 body-large ${
+          invert ? "text-inverse-on-surface" : "text-on-surface-variant"
         }`}
       >
         {sub}
