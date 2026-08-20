@@ -6,8 +6,8 @@ export function Hero() {
     <section id="top" className="bg-surface pb-16 pt-28 sm:pt-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <h1 className="mt-8 max-w-4xl display-large text-on-surface">
-          Software that doesn't just run —{" "}
-          <span className="text-primary">it holds up</span>.
+          Good ideas deserve{" "}
+          <span className="text-primary">good software</span>.
         </h1>
 
         <p className="mt-6 max-w-2xl body-large text-on-surface-variant">{profile.intro}</p>
