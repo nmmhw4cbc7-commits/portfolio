@@ -1,32 +1,65 @@
 import { SectionHead } from "./Trail";
 
+type Tech = { name: string; icon: string };
+
+const languages: Tech[] = [
+  { name: "JavaScript", icon: "devicon-javascript-plain" },
+  { name: "TypeScript", icon: "devicon-typescript-plain" },
+  { name: "Python", icon: "devicon-python-plain" },
+  { name: "Java", icon: "devicon-java-plain" },
+  { name: "C#", icon: "devicon-csharp-plain" },
+];
+
+const frameworks: Tech[] = [
+  { name: "React", icon: "devicon-react-original" },
+  { name: "Flutter", icon: "devicon-flutter-plain" },
+  { name: "Node.js", icon: "devicon-nodejs-plain" },
+  { name: "Swift", icon: "devicon-swift-plain" },
+  { name: "Docker", icon: "devicon-docker-plain" },
+];
+
+const systems: Tech[] = [
+  { name: "macOS", icon: "devicon-apple-original" },
+  { name: "Linux", icon: "devicon-linux-plain" },
+  { name: "Git", icon: "devicon-git-plain" },
+  { name: "VS Code", icon: "devicon-vscode-plain" },
+];
+
+function TechCard({ name, icon }: Tech) {
+  return (
+    <div className="md-card mx-2 flex w-24 shrink-0 flex-col items-center justify-center gap-2 px-3 py-4">
+      <i className={`devicon ${icon} colored`} aria-hidden="true" />
+      <span className="label-medium text-on-surface">{name}</span>
+    </div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className="mx-3 flex shrink-0 items-center" aria-hidden="true">
+      <div className="h-12 w-px bg-outline-variant" />
+    </div>
+  );
+}
+
+function TechGroup({ hidden = false }: { hidden?: boolean }) {
+  return (
+    <div className="flex items-stretch" aria-hidden={hidden || undefined}>
+      {languages.map((tech) => (
+        <TechCard key={`lang-${tech.name}`} {...tech} />
+      ))}
+      {frameworks.map((tech) => (
+        <TechCard key={`fw-${tech.name}`} {...tech} />
+      ))}
+      <Divider />
+      {systems.map((tech) => (
+        <TechCard key={`sys-${tech.name}`} {...tech} />
+      ))}
+    </div>
+  );
+}
+
 export function Kit() {
-  const languages = [
-    { name: "JavaScript", icon: "devicon-javascript-plain" },
-    { name: "TypeScript", icon: "devicon-typescript-plain" },
-    { name: "Python", icon: "devicon-python-plain" },
-    { name: "Java", icon: "devicon-java-plain" },
-    { name: "C#", icon: "devicon-csharp-plain" },
-  ];
-
-  const frameworks = [
-    { name: "React", icon: "devicon-react-original" },
-    { name: "Flutter", icon: "devicon-flutter-plain" },
-    { name: "Node.js", icon: "devicon-nodejs-plain" },
-    { name: "Swift", icon: "devicon-swift-plain" },
-    { name: "Docker", icon: "devicon-docker-plain" },
-  ];
-
-  const systems = [
-    { name: "macOS", icon: "devicon-apple-original" },
-    { name: "Linux", icon: "devicon-linux-plain" },
-    { name: "Git", icon: "devicon-git-plain" },
-    { name: "VS Code", icon: "devicon-vscode-plain" },
-  ];
-
-  const allTechs = [...languages, ...frameworks, ...systems];
-  const doubled = [...allTechs, ...allTechs];
-
   return (
     <section id="kit" className="bg-surface-container-low py-20 sm:py-24">
       <link
@@ -46,26 +79,21 @@ export function Kit() {
               100% { transform: translateX(-50%); }
             }
             .scroll-banner {
-              animation: scroll 30s linear infinite;
+              animation: scroll 38s linear infinite;
+              width: max-content;
             }
             .scroll-banner:hover {
               animation-play-state: paused;
             }
-            .devicon {
-              font-size: 1.75rem;
+            .scroll-banner .devicon {
+              font-size: 1.4rem;
+              line-height: 1;
             }
           `}</style>
 
-          <div className="scroll-banner flex gap-6 whitespace-nowrap px-4">
-            {doubled.map((tech, idx) => (
-              <div
-                key={idx}
-                className="md-chip md-chip-tonal label-medium shrink-0 flex items-center gap-3 px-4 py-2"
-              >
-                <i className={`devicon ${tech.icon} colored`}></i>
-                <span className="text-on-surface">{tech.name}</span>
-              </div>
-            ))}
+          <div className="scroll-banner flex px-4">
+            <TechGroup />
+            <TechGroup hidden />
           </div>
         </div>
       </div>
