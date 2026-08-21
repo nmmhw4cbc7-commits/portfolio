@@ -39,9 +39,11 @@ export function Nav() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4 sm:px-6">
         <a href="#top" className="state-layer flex items-center gap-3 rounded-full py-2 pr-4">
-          <span className="flex size-10 items-center justify-center rounded-full bg-primary-container label-large text-on-primary-container">
-            PD
-          </span>
+          <img
+            src="/favicon.ico"
+            alt="Philipp Dachtler"
+            className="size-10 rounded-full bg-primary-container object-cover"
+          />
           <span className="title-medium text-on-surface">Philipp Dachtler</span>
         </a>
 
