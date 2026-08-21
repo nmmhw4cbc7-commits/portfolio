@@ -42,7 +42,7 @@ export function Nav() {
           <img
             src="/favicon.ico"
             alt="Philipp Dachtler"
-            className="size-10 rounded-full bg-primary-container object-cover"
+            className="size-10 rounded-full bg-primary-container object-cover p-1.5"
           />
           <span className="title-medium text-on-surface">Philipp Dachtler</span>
         </a>
