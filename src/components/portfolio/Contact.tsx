@@ -25,6 +25,14 @@ export function Contact() {
         >
           GitHub profile
         </a>
+        <a
+          href="https://www.linkedin.com/in/philipp-b22220421/"
+          target="_blank"
+          rel="noreferrer"
+          className="md-btn md-btn-outlined state-layer"
+        >
+          LinkedIn profile
+        </a>
       </div>
 
       <p className="mt-10 label-large text-on-surface-variant">{profile.base}</p>
