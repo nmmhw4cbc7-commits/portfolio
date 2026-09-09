@@ -46,10 +46,7 @@ function TourCard({ project }: { project: Project }) {
 
         <hr className="md-divider mt-5" />
 
-        <div className="mt-4 flex items-center justify-between gap-4">
-          <span className="label-medium text-on-surface-variant">
-            Level · {project.difficulty}
-          </span>
+        <div className="mt-4 flex items-center justify-end gap-4">
           <div className="flex flex-wrap gap-2">
             {project.links.length === 0 ? (
               <span className="md-chip md-chip-tonal label-medium">In active development</span>
