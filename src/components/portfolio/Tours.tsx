@@ -42,10 +42,6 @@ function TourCard({ project }: { project: Project }) {
         <h3 className="headline-small text-on-surface">{project.title}</h3>
         <p className="mt-3 flex-1 body-medium text-on-surface-variant">{project.text}</p>
 
-        <p className="mt-5 label-medium text-on-surface-variant">{project.stack.join(" · ")}</p>
-
-        <hr className="md-divider mt-5" />
-
         <div className="mt-4 flex items-center justify-end gap-4">
           <div className="flex flex-wrap gap-2">
             {project.links.length === 0 ? (
