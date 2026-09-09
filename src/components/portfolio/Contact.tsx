@@ -6,7 +6,7 @@ export function Contact() {
     <section id="contact" className="border-t border-outline mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
       <SectionHead
         title="Enter your next project"
-        sub="Available for freelance projects, technical discussions and collaborative software development. Tell me where you want to go — I'll plan the way there."
+        sub="Have a project in mind or need help with full-stack development? Let's connect."
         invert={false}
       />
 
@@ -45,7 +45,7 @@ export function Footer() {
     <footer className="bg-surface text-on-surface">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-outline px-4 py-8 sm:px-6">
         <span className="label-medium text-on-surface-variant">© {new Date().getFullYear()} Philipp Dachtler</span>
-        <span className="label-medium text-on-surface-variant">Planned, built and maintained solo</span>
+        <span className="label-medium text-on-surface-variant">Planned, built and maintained solo and without AI</span>
       </div>
     </footer>
   );
