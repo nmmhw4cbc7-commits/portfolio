@@ -11,7 +11,7 @@ export const profile = {
 export const tourStats = [
   { label: "Home base", value: "Schifferstadt", unit: "Rhein-Neckar" },
   { label: "Apps shipped", value: "3", unit: "iOS + Android" },
-  { label: "Main terrain", value: "Fullstack", unit: "+ Infrastructure" },
+  { label: "Primary stack", value: "Fullstack", unit: "+ Infrastructure" },
   { label: "Status", value: "Open", unit: "for collaborations" },
 ];
 
@@ -32,15 +32,15 @@ export const stages: Stage[] = [
     kind: "Education",
     title: "Mittlere Reife",
     place: "Secondary school certificate",
-    text: "The trailhead. Solid academic base that pointed straight into technical vocational training.",
+    text: "Secondary school certificate with a strong focus on technical fundamentals.",
   },
   {
     km: "KM 1",
-    year: "Ascent",
+    year: "Growth",
     kind: "Apprenticeship",
     title: "IT Specialist in System Integration",
     place: "Fachinformatiker · Mannheim",
-    text: "System architecture, enterprise networks, hardware configuration and deployment — the steep part where the fundamentals get built.",
+    text: "Enterprise networks, hardware configuration, system architecture, and hands-on deployment.",
   },
   {
     km: "KM 2",
@@ -63,9 +63,9 @@ export const stages: Stage[] = [
     km: "SUMMIT",
     year: "Next",
     kind: "Trajectory",
-    title: "High-tier Fullstack Engineering",
+    title: "Advanced Fullstack & Cloud Engineering",
     place: "Cloud architecture · automation",
-    text: "Deeper into advanced cloud architectures and automated workflows, with client web development as the second rope.",
+    text: "Expanding into automated workflows, scalable cloud infrastructure, and custom web applications.",
   },
 ];
 

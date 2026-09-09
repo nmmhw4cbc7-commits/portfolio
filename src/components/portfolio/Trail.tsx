@@ -51,11 +51,11 @@ export function Trail() {
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         <Philosophy
           title="Reliability & usability"
-          text="I build with a strict focus on practicality. Rather than over-engineering, I make clean, user-centric tools that solve a real problem and keep working."
+          text="Focused on pragmatism and stability. I build clean, efficient software that solves practical problems without unnecessary complexity."
         />
         <Philosophy
-          title="Two disciplines, one line"
-          text="Enterprise infrastructure on one side, software craftsmanship on the other. Knowing both means the app and the network it runs on are planned together."
+          title="Infrastructure & Code"
+          text="Combining system integration with modern software development. Understanding both ensures applications run reliably on solid infrastructure."
         />
       </div>
     </section>
