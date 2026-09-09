@@ -4,7 +4,7 @@ export function Trail() {
   return (
     <section id="route" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
       <SectionHead
-        title="The path so far"
+        title="Education"
         sub="Education, training and where things are heading — infrastructure on one side, software craft on the other."
       />
 
