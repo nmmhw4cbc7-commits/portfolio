@@ -77,7 +77,7 @@ export type Project = {
   links: { label: string; href: string }[];
   difficulty: "Easy" | "Intermediate" | "Expert";
   stack: string[];
-  icon: "leaf" | "compass" | "shield" | "mail";
+  icon: "leaf" | "compass" | "shield" | "mail" | "laptop";
 };
 
 export const projects: Project[] = [
@@ -117,14 +117,14 @@ export const projects: Project[] = [
     icon: "shield",
   },
   {
-    tag: "Fullstack",
-    status: "In progress",
-    title: "Unified Email",
-    text: "One lightning-fast inbox that folds multiple email accounts and providers into a single clean interface. Currently in active development.",
-    links: [],
+    tag: "Swift",
+    status: "Published",
+    title: "DynamicNotch",
+    text: "A native macOS app that turns the MacBook notch into a dynamic, interactive space for media, notifications and quick actions.",
+    links: [{ label: "dynamicnotch.philipp-dachtler.de", href: "https://dynamicnotch.philipp-dachtler.de" }],
     difficulty: "Expert",
-    stack: ["Fullstack", "Node.js", "TypeScript"],
-    icon: "mail",
+    stack: ["Native macOS App", "Swift", "SwiftUI"],
+    icon: "laptop",
   },
 ];
 
