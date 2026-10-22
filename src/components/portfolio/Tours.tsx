@@ -1,8 +1,8 @@
-import { Leaf, Compass, ShieldCheck, Mail, ArrowUpRight } from "lucide-react";
+import { Leaf, Compass, ShieldCheck, Mail, Laptop, ArrowUpRight } from "lucide-react";
 import { projects, type Project } from "./data";
 import { SectionHead } from "./Trail";
 
-const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail };
+const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail, laptop: Laptop };
 
 export function Tours() {
   return (
