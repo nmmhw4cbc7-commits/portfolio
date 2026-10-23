@@ -86,7 +86,7 @@ export const projects: Project[] = [
     status: "Client project",
     title: "GaLaBau Diwold",
     text: "A custom-crafted web presence for a landscaping and gardening enterprise. Responsive layouts, calm modern design and a clear presentation of services.",
-    links: [{ label: "galabau-diwold.de", href: "https://galabau-diwold.de" }],
+    links: [{ label: "GaLaBau Diwold", href: "https://galabau-diwold.de" }],
     difficulty: "Intermediate",
     stack: ["Web", "Responsive", "Design"],
     icon: "leaf",
