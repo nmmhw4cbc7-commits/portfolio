@@ -110,7 +110,7 @@ export const projects: Project[] = [
     title: "Lime Adblocker",
     text: "A lightweight browser adblocker focused on performance and simplicity.",
     links: [
-      { label: "Lime Adblocker", href: "https://adblocker-lime.vercel.app/" },
+      { label: "Lime Adblocker", href: "https://adblocker.philipp-dachtler.de" },
     ],
     difficulty: "Intermediate",
     stack: ["Chrome Extension", "Cross-platform"],
@@ -121,7 +121,7 @@ export const projects: Project[] = [
     status: "Published",
     title: "DynamicNotch",
     text: "A native macOS app that turns the MacBook notch into a dynamic, interactive space for media, notifications and quick actions.",
-    links: [{ label: "dynamicnotch.philipp-dachtler.de", href: "https://dynamicnotch.philipp-dachtler.de" }],
+    links: [{ label: "DynamicNotch", href: "https://dynamicnotch.philipp-dachtler.de" }],
     difficulty: "Expert",
     stack: ["Native macOS App", "Swift", "SwiftUI"],
     icon: "laptop",
