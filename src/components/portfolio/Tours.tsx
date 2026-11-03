@@ -59,7 +59,20 @@ export function Tours() {
             padding-right: 2rem;
             transform: translate3d(calc(var(--p, 0) * (100vw - 1rem - var(--n) * min(62vw, 860px) - var(--pad) - 2rem)), 0, 0);
           }
-          .tours-track > article { width: min(62vw, 860px); }
+          .tours-track > article {
+            width: min(62vw, 860px);
+            /* coverflow: cards turn towards you as they reach the centre */
+            transform: perspective(1600px) rotateY(calc(var(--x, 0) * -32deg)) translate3d(0, 0, calc(var(--ax, 0) * -260px));
+            transform-origin: 50% 50%;
+            opacity: calc(1 - var(--ax, 0) * 0.6);
+          }
+        }
+        @media (max-width: 1023px) {
+          .tours-track > article {
+            transform: perspective(1100px) rotateX(calc((1 - var(--p, 1)) * 40deg)) translate3d(0, calc((1 - var(--p, 1)) * 60px), 0);
+            transform-origin: 50% 0%;
+            opacity: calc(var(--p, 1) * 1.3 - 0.3);
+          }
         }
       `}</style>
     </section>
@@ -70,7 +83,8 @@ function TourCard({ project, index, total }: { project: Project; index: number; 
   const Icon = icons[project.icon];
   return (
     <article
-      data-reveal
+      data-scroll="card"
+      data-motion
       className="group relative flex flex-col border-t border-fg py-10 lg:h-[min(50vh,480px)] lg:border-l lg:border-t-0 lg:px-10 lg:py-2 lg:first:border-l-0 lg:first:pl-0"
     >
       <div className="flex items-start justify-between gap-6">

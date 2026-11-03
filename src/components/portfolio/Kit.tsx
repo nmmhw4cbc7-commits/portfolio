@@ -65,7 +65,7 @@ function Row({
   outline?: boolean;
 }) {
   return (
-    <div data-motion style={{ transform: shift }}>
+    <div data-motion style={{ transform: `${shift} skewX(calc(var(--v, 0) * -16deg))` }}>
       <div
         className={`marquee ${reverse ? "reverse" : ""}`}
         style={{ "--speed": speed } as CSSProperties}
@@ -118,7 +118,14 @@ export function Kit() {
         </ul>
       </div>
 
-      <div className="mt-20 space-y-4 sm:mt-28">
+      {/* the rows roll like a drum as the section passes */}
+      <div
+        data-motion
+        className="mt-20 space-y-4 sm:mt-28"
+        style={{
+          transform: "perspective(900px) rotateX(calc((0.55 - var(--p, 0.55)) * 70deg))",
+        }}
+      >
         <Row
           items={[...languages, ...frameworks]}
           shift="translate3d(calc(var(--p, 0) * -18%), 0, 0)"

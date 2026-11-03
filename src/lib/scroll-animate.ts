@@ -13,7 +13,11 @@
 //                              1 once it is fully on screen (good for footers)
 //      data-scroll="enter"   : 0 when its top hits the viewport bottom,
 //                              1 when its top reaches the viewport middle
-// 3. `--page` on <html> is overall page progress.
+//      data-scroll="card"    : like "enter", plus `--x` / `--ax`: signed / absolute
+//                              horizontal distance of its centre from the
+//                              viewport centre, in viewport widths
+// 3. `--page` on <html> is overall page progress, `--v` is smoothed scroll
+//    velocity (-1 → 1) that decays back to 0 when scrolling stops.
 
 const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -44,10 +48,24 @@ export default function initScrollAnimations(): (() => void) | void {
   const tracked = Array.from(document.querySelectorAll<HTMLElement>("[data-scroll]"));
   const root = document.documentElement;
   let frame = 0;
+  let lastY = window.scrollY;
+  let vel = 0;
+
+  const request = () => {
+    if (!frame) frame = requestAnimationFrame(update);
+  };
 
   const update = () => {
     frame = 0;
     const vh = window.innerHeight;
+    const vw = window.innerWidth;
+
+    const dy = window.scrollY - lastY;
+    lastY = window.scrollY;
+    vel += (dy - vel) * 0.18;
+    if (Math.abs(vel) < 0.05) vel = 0;
+    root.style.setProperty("--v", Math.max(-1, Math.min(1, vel / 50)).toFixed(4));
+
     const max = root.scrollHeight - vh;
     root.style.setProperty("--page", (max > 0 ? clamp(window.scrollY / max) : 0).toFixed(4));
 
@@ -70,15 +88,21 @@ export default function initScrollAnimations(): (() => void) | void {
         case "enter":
           p = (vh - r.top) / (vh * 0.5);
           break;
+        case "card": {
+          p = (vh - r.top) / (vh * 0.5);
+          const x = (r.left + r.width / 2 - vw / 2) / vw;
+          el.style.setProperty("--x", x.toFixed(4));
+          el.style.setProperty("--ax", Math.abs(x).toFixed(4));
+          break;
+        }
         default:
           p = (vh - r.top) / (vh + r.height);
       }
       el.style.setProperty("--p", clamp(p).toFixed(4));
     }
-  };
 
-  const request = () => {
-    if (!frame) frame = requestAnimationFrame(update);
+    // keep ticking while the velocity eases back to rest
+    if (vel !== 0 && !reduce) request();
   };
 
   update();

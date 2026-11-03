@@ -29,7 +29,7 @@ export function Trail() {
           {stages.map((s, i) => (
             <li
               key={s.title}
-              data-reveal
+              data-scroll="enter"
               className="relative grid grid-cols-[15px_1fr] gap-6 pb-14 last:pb-0 sm:gap-10"
             >
               <span className="relative mt-1.5 grid size-[15px] place-items-center bg-bg">
@@ -41,6 +41,13 @@ export function Trail() {
               </span>
 
               <div
+                data-motion
+                style={{
+                  transform:
+                    "perspective(1100px) translate3d(calc((1 - var(--p, 1)) * 80px), 0, calc((1 - var(--p, 1)) * -160px)) rotateY(calc((1 - var(--p, 1)) * -38deg))",
+                  transformOrigin: "0% 50%",
+                  opacity: "calc(0.15 + var(--p, 1) * 0.85)",
+                }}
                 className={
                   s.current ? "-ml-4 bg-fg py-6 pl-4 pr-4 text-bg sm:-ml-6 sm:pl-6 sm:pr-6" : ""
                 }
@@ -93,8 +100,13 @@ function Philosophy({
 }) {
   return (
     <div
-      data-reveal
-      style={{ "--d": `${delay}ms` } as CSSProperties}
+      data-scroll="enter"
+      data-motion
+      style={{
+        transform: `perspective(1200px) rotateX(calc((1 - var(--p, 1)) * ${delay ? 55 : 40}deg)) translate3d(0, calc((1 - var(--p, 1)) * 60px), 0)`,
+        transformOrigin: "50% 0%",
+        opacity: "calc(var(--p, 1) * 1.4 - 0.4)",
+      }}
       className="group border-b border-rule py-10 md:border-b-0 md:pr-12 md:even:border-l md:even:pl-12"
     >
       <span className="t-mono text-muted">Principle {mark}</span>
@@ -130,7 +142,12 @@ export function SectionHead({
           style={{ "--d": "200ms" } as CSSProperties}
         />
       </div>
-      <h2 data-reveal="mask" className="t-display mt-6">
+      <h2
+        data-reveal="mask"
+        data-motion
+        className="t-display mt-6"
+        style={{ transform: "skewY(calc(var(--v, 0) * -4deg))", transformOrigin: "0 100%" }}
+      >
         <span className="mask">
           <span>{title}</span>
         </span>

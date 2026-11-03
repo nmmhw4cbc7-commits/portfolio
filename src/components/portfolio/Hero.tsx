@@ -24,7 +24,7 @@ export function Hero() {
         <h1
           data-reveal="mask"
           className="t-mega mt-10 sm:mt-14"
-          style={{ "--d": "150ms" } as React.CSSProperties}
+          style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
         >
           {lines.map((l, i) => (
             <span
@@ -32,7 +32,9 @@ export function Hero() {
               className="mask"
               data-motion
               style={{
-                transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), 0, 0)`,
+                // drift sideways and fold back into the page as you scroll away
+                transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), calc(var(--p, 0) * ${-i * 12}%), 0) rotateX(calc(var(--p, 0) * ${50 + i * 15}deg))`,
+                transformOrigin: "50% 100%",
                 ["--i" as string]: i,
               }}
             >
@@ -104,7 +106,10 @@ function Band() {
       <div
         data-motion
         className="flex w-max items-center whitespace-nowrap"
-        style={{ transform: "translate3d(calc(var(--p, 0) * -35%), 0, 0)" }}
+        style={{
+          transform:
+            "translate3d(calc(var(--p, 0) * -35%), 0, 0) skewX(calc(var(--v, 0) * -14deg))",
+        }}
       >
         {row.map((w, i) => (
           <span key={i} className="flex items-center">

@@ -315,8 +315,10 @@
     transform: none !important;
     transition: none !important;
   }
-  [data-motion] {
+  [data-motion],
+  [data-motion] > * {
     transform: none !important;
+    opacity: 1 !important;
   }
   .marquee,
   .live-dot {
