@@ -2,346 +2,324 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import "./m3-tokens.css";
-@import "./m3-typography.css";
-
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system: Google Material Design 3 (M3).
- * Color roles, type scale, shape scale, tonal elevation, state layers.
+ * Design system: "Field manual".
+ * Warm paper + ink, one signal colour, Archivo (variable width) for display,
+ * JetBrains Mono for annotations. Motion is tied to scroll position.
  */
 
+:root {
+  --bg: #ece8df;
+  --bg-2: #e3ded3;
+  --fg: #131312;
+  --muted: #6a665e;
+  --rule: rgb(19 19 18 / 0.16);
+  --accent: #ff4d00;
+  --on-accent: #131312;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --page: 0;
+}
+
+.dark {
+  --bg: #111110;
+  --bg-2: #1a1a18;
+  --fg: #ece8df;
+  --muted: #8f8a80;
+  --rule: rgb(236 232 223 / 0.14);
+  --accent: #ff5a1f;
+  --on-accent: #111110;
+}
+
 @theme inline {
-  /* M3 color roles as Tailwind colors */
-  --color-primary: var(--md-primary);
-  --color-on-primary: var(--md-on-primary);
-  --color-primary-container: var(--md-primary-container);
-  --color-on-primary-container: var(--md-on-primary-container);
-  --color-secondary: var(--md-secondary);
-  --color-on-secondary: var(--md-on-secondary);
-  --color-secondary-container: var(--md-secondary-container);
-  --color-on-secondary-container: var(--md-on-secondary-container);
-  --color-tertiary: var(--md-tertiary);
-  --color-on-tertiary: var(--md-on-tertiary);
-  --color-tertiary-container: var(--md-tertiary-container);
-  --color-on-tertiary-container: var(--md-on-tertiary-container);
-  --color-error: var(--md-error);
-  --color-on-error: var(--md-on-error);
-  --color-error-container: var(--md-error-container);
-  --color-on-error-container: var(--md-on-error-container);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
 
-  --color-surface: var(--md-surface);
-  --color-on-surface: var(--md-on-surface);
-  --color-surface-variant: var(--md-surface-variant);
-  --color-on-surface-variant: var(--md-on-surface-variant);
-  --color-surface-dim: var(--md-surface-dim);
-  --color-surface-bright: var(--md-surface-bright);
-  --color-surface-lowest: var(--md-surface-container-lowest);
-  --color-surface-low: var(--md-surface-container-low);
-  --color-surface-container: var(--md-surface-container);
-  --color-surface-high: var(--md-surface-container-high);
-  --color-surface-highest: var(--md-surface-container-highest);
+  /* shadcn compatibility aliases (404 / error pages, ui kit) */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--bg-2);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--bg-2);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--fg);
+  --color-primary-foreground: var(--bg);
+  --color-secondary: var(--bg-2);
+  --color-secondary-foreground: var(--fg);
+  --color-muted-foreground: var(--muted);
+  --color-accent-foreground: var(--on-accent);
+  --color-destructive: #c62828;
+  --color-destructive-foreground: #fff;
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--accent);
 
-  --color-outline: var(--md-outline);
-  --color-outline-variant: var(--md-outline-variant);
-  --color-inverse-surface: var(--md-inverse-surface);
-  --color-inverse-on-surface: var(--md-inverse-on-surface);
-  --color-inverse-primary: var(--md-inverse-primary);
-
-  /* shadcn compatibility aliases mapped onto M3 roles */
-  --color-background: var(--md-surface);
-  --color-foreground: var(--md-on-surface);
-  --color-card: var(--md-surface-container-low);
-  --color-card-foreground: var(--md-on-surface);
-  --color-popover: var(--md-surface-container);
-  --color-popover-foreground: var(--md-on-surface);
-  --color-primary-foreground: var(--md-on-primary);
-  --color-secondary-foreground: var(--md-on-secondary);
-  --color-muted: var(--md-surface-variant);
-  --color-muted-foreground: var(--md-on-surface-variant);
-  --color-accent: var(--md-secondary-container);
-  --color-accent-foreground: var(--md-on-secondary-container);
-  --color-destructive: var(--md-error);
-  --color-destructive-foreground: var(--md-on-error);
-  --color-border: var(--md-outline-variant);
-  --color-input: var(--md-outline);
-  --color-ring: var(--md-primary);
-
-  /* M3 shape scale */
-  --radius-xs: var(--md-shape-xs);
-  --radius-sm: var(--md-shape-sm);
-  --radius-md: var(--md-shape-md);
-  --radius-lg: var(--md-shape-lg);
-  --radius-xl: var(--md-shape-xl);
-  --radius-2xl: var(--md-shape-xl);
-  --radius-full: var(--md-shape-full);
-
-  /* 4dp / 8dp spacing grid */
-  --spacing: 4px;
-
-  --font-display: var(--md-font-brand);
-  --font-sans: var(--md-font-plain);
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  --ease-standard: var(--md-ease-standard);
-  --ease-emphasized: var(--md-ease-emphasized);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
 @layer base {
   * {
-    border-color: var(--md-outline-variant);
+    border-color: var(--rule);
   }
 
   html {
     scroll-behavior: smooth;
+    background: var(--bg);
+    overflow-x: clip;
   }
 
   body {
-    background-color: var(--md-surface);
-    color: var(--md-on-surface);
-    font-family: var(--md-font-plain);
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-stretch: 100%;
     -webkit-font-smoothing: antialiased;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--md-font-brand);
-    font-weight: 400;
+    overflow-x: clip;
+    transition:
+      background-color 0.4s var(--ease-io),
+      color 0.4s var(--ease-io);
   }
 
   :focus-visible {
-    outline: 3px solid var(--md-primary);
-    outline-offset: 2px;
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
   }
 
   ::selection {
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
+    background: var(--accent);
+    color: var(--on-accent);
   }
 }
 
-/* ---------- Tonal elevation (surface tint, no heavy black shadows) ---------- */
-@utility md-elev-0 {
-  background-color: var(--md-surface);
-  box-shadow: none;
-}
-@utility md-elev-1 {
-  background-color: var(--md-surface-container-low);
-  box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--md-shadow) 12%, transparent);
-}
-@utility md-elev-2 {
-  background-color: var(--md-surface-container);
-  box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--md-shadow) 12%, transparent),
-    0 2px 6px 2px color-mix(in srgb, var(--md-shadow) 8%, transparent);
-}
-@utility md-elev-3 {
-  background-color: var(--md-surface-container-high);
-  box-shadow: 0 4px 8px 3px color-mix(in srgb, var(--md-shadow) 8%, transparent),
-    0 1px 3px 0 color-mix(in srgb, var(--md-shadow) 12%, transparent);
-}
+@layer components {
+  /* ---------- Type ---------- */
+  .t-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
 
-/* ---------- State layers ---------- */
-@utility state-layer {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  transition:
-    box-shadow var(--md-dur-short4) var(--md-ease-standard),
-    background-color var(--md-dur-short4) var(--md-ease-standard),
-    transform var(--md-dur-short4) var(--md-ease-emphasized);
+  .t-mega {
+    font-weight: 800;
+    font-stretch: 112%;
+    font-size: clamp(2.9rem, 9.4vw, 9.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+  }
 
-  &::after {
+  .t-display {
+    font-weight: 800;
+    font-stretch: 108%;
+    font-size: clamp(2.4rem, 6.4vw, 5.75rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .t-title {
+    font-weight: 700;
+    font-stretch: 104%;
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .t-body {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    font-stretch: 96%;
+  }
+
+  /* ---------- Links & buttons ---------- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 3rem;
+    padding-inline: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    overflow: hidden;
+    isolation: isolate;
+    white-space: nowrap;
+    transition: color 0.35s var(--ease-out);
+  }
+  .btn::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-color: currentColor;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--md-dur-short4) var(--md-ease-standard);
+    background: var(--fg);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s var(--ease-out);
   }
-  &:hover::after {
-    opacity: var(--md-state-hover);
+  .btn:hover {
+    color: var(--bg);
   }
-  &:focus-visible::after {
-    opacity: var(--md-state-focus);
+  .btn:hover::before {
+    transform: scaleY(1);
   }
-  &:active::after {
-    opacity: var(--md-state-press);
+  .btn-solid {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn-solid::before {
+    background: var(--fg);
+  }
+  .btn svg {
+    transition: transform 0.35s var(--ease-out);
+  }
+  .btn:hover svg {
+    transform: translate(2px, 2px);
+  }
+
+  .ulink {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition:
+      background-size 0.4s var(--ease-out),
+      color 0.2s;
+  }
+  .ulink:hover {
+    color: var(--accent);
+    background-size: 0% 1px;
+    background-position: 100% 100%;
   }
 }
 
-/* ---------- Buttons (M3: full-round, 40dp height) ---------- */
-@utility md-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 40px;
-  padding-inline: 24px;
-  border-radius: var(--md-shape-full);
-  font-family: var(--md-font-plain);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.007em;
-  cursor: pointer;
-  user-select: none;
-  border: none;
-  text-decoration: none;
-  white-space: nowrap;
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-@utility md-btn-filled {
-  background-color: var(--md-primary);
-  color: var(--md-on-primary);
-
-  &:hover {
-    box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--md-shadow) 20%, transparent);
-  }
-}
-@utility md-btn-tonal {
-  background-color: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-}
-@utility md-btn-outlined {
-  background-color: transparent;
-  color: var(--md-primary);
-  box-shadow: inset 0 0 0 1px var(--md-outline);
-}
-@utility md-btn-text {
-  background-color: transparent;
-  color: var(--md-primary);
-  padding-inline: 12px;
-}
-
-/* ---------- Icon button (40dp) ---------- */
-@utility md-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--md-shape-full);
-  color: var(--md-on-surface-variant);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-/* ---------- Cards ---------- */
-@utility md-card {
-  border-radius: var(--md-shape-lg);
-  background-color: var(--md-surface-container-low);
-  color: var(--md-on-surface);
+/* ---------- Reveal on enter ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
   transition:
-    box-shadow var(--md-dur-medium) var(--md-ease-emphasized),
-    transform var(--md-dur-medium) var(--md-ease-emphasized),
-    background-color var(--md-dur-medium) var(--md-ease-standard);
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--ease-out);
+  transition-delay: var(--d, 0ms);
 }
-@utility md-card-outlined {
-  border-radius: var(--md-shape-md);
-  background-color: var(--md-surface);
-  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
-}
-
-/* ---------- Chips (assist/suggestion, 32dp, 8dp corner) ---------- */
-@utility md-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  padding-inline: 16px;
-  border-radius: var(--md-shape-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-on-surface-variant);
-  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
-  background: transparent;
-}
-@utility md-chip-tonal {
-  box-shadow: none;
-  background-color: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
 }
 
-/* ---------- FAB ---------- */
-@utility md-fab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 56px;
-  min-width: 56px;
-  padding-inline: 16px;
-  border-radius: var(--md-shape-lg);
-  background-color: var(--md-primary-container);
-  color: var(--md-on-primary-container);
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  box-shadow: 0 3px 5px -1px color-mix(in srgb, var(--md-shadow) 20%, transparent),
-    0 6px 10px 0 color-mix(in srgb, var(--md-shadow) 14%, transparent);
-}
-
-/* ---------- Linear progress (M3 determinate) ---------- */
-@utility md-progress-track {
-  height: 4px;
-  border-radius: var(--md-shape-full);
-  background-color: var(--md-secondary-container);
-  overflow: hidden;
-}
-@utility md-progress-indicator {
+/* line mask: wrap each line in .mask > span */
+.mask {
   display: block;
-  height: 100%;
-  border-radius: var(--md-shape-full);
-  background-color: var(--md-primary);
-  transition: width var(--md-dur-long) var(--md-ease-emphasized-decel);
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.mask > span {
+  display: block;
+}
+.js [data-reveal="mask"] {
+  opacity: 1;
+  transform: none;
+}
+.js [data-reveal="mask"] .mask > span {
+  transform: translateY(110%);
+  transition: transform 1.2s var(--ease-out);
+  transition-delay: calc(var(--d, 0ms) + var(--i, 0) * 90ms);
+}
+.js [data-reveal="mask"].is-in .mask > span {
+  transform: none;
 }
 
-/* ---------- Divider ---------- */
-@utility md-divider {
-  height: 1px;
-  background-color: var(--md-outline-variant);
-  border: none;
+/* rule that draws in */
+.js [data-reveal="rule"] {
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+.js [data-reveal="rule"].is-in {
+  transform: none;
 }
 
-/* Scroll reveal animations (prefers-reduced-motion respected) */
-@layer utilities {
-  @media (prefers-reduced-motion: reduce) {
-    .scroll-animate,
-    [data-animate="scroll"] {
-      transition: none !important;
-      transform: none !important;
-      opacity: 1 !important;
+@layer components {
+  /* ---------- Marquee ---------- */
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
     }
   }
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--speed, 40s) linear infinite;
+  }
+  .marquee.reverse {
+    animation-direction: reverse;
+  }
 
-  .scroll-animate,
-  [data-animate="scroll"] {
-    opacity: 0;
-    transform: translateY(12px);
+  .outline-text {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1.5px currentColor;
     transition:
-      opacity var(--md-dur-long) var(--md-ease-emphasized-decel),
-      transform var(--md-dur-long) var(--md-ease-emphasized-decel);
-    will-change: opacity, transform;
+      -webkit-text-fill-color 0.4s var(--ease-out),
+      color 0.3s;
+  }
+  .group:hover .outline-text.fill-on-hover {
+    -webkit-text-fill-color: currentColor;
   }
 
-  .scroll-animate.in-view,
-  [data-animate="scroll"].in-view {
-    opacity: 1;
-    transform: translateY(0);
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 8px transparent;
+    }
   }
+  .live-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--accent);
+    animation: pulse-dot 2s var(--ease-io) infinite;
+  }
+}
 
-  [data-animate="scroll"] {
-    transition-delay: var(--sa-delay, 0ms);
+/* Kill all motion when the user asks for it */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  .scroll-animate {
-    transition-delay: var(--sa-delay, 0ms);
+  .js [data-reveal],
+  .js [data-reveal] .mask > span {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-motion] {
+    transform: none !important;
+  }
+  .marquee,
+  .live-dot {
+    animation: none !important;
   }
 }

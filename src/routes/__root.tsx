@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import initScrollAnimations from "../lib/scroll-animate";
 
 function NotFoundComponent() {
   return (
@@ -82,8 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Philipp Dachtler — Fullstack Developer & System Integrator" },
       {
         name: "description",
-        content:
-          "Fullstack developer and IT system integration specialist from Mannheim, Germany.",
+        content: "Fullstack developer and IT system integration specialist from Mannheim, Germany.",
       },
       { name: "author", content: "Philipp Dachtler" },
       { property: "og:type", content: "website" },
@@ -94,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap",
       },
 
       {
@@ -113,8 +111,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}catch(e){}",
+          }}
+        />
         <HeadContent />
       </head>
       <body>
@@ -127,17 +131,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    // Respect user's reduced motion preference
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const cleanup = initScrollAnimations();
-    return () => {
-      if (typeof cleanup === "function") cleanup();
-    };
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

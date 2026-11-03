@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import initScrollAnimations from "@/lib/scroll-animate";
 import { Nav } from "@/components/portfolio/Nav";
 import { Hero } from "@/components/portfolio/Hero";
 import { Trail } from "@/components/portfolio/Trail";
@@ -25,6 +27,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  // Runs after this route has hydrated, so the engine never touches markup React is still matching.
+  useEffect(() => initScrollAnimations() ?? undefined, []);
+
   return (
     <main>
       <Nav />
