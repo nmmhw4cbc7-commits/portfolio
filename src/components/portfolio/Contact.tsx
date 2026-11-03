@@ -22,14 +22,10 @@ export function Contact() {
 
       <h2
         data-scroll="enter"
-        data-motion
         className="mt-8 font-extrabold uppercase leading-[0.84] tracking-[-0.04em]"
         style={{
           fontSize: "clamp(2.6rem, 8.6vw, 8.75rem)",
           fontStretch: "calc(62% + var(--p, 0) * 63%)",
-          // stands up out of the page while it widens
-          transform: "perspective(900px) rotateX(calc((1 - var(--p, 1)) * -70deg))",
-          transformOrigin: "50% 100%",
         }}
       >
         <span className="block">Enter your</span>
@@ -94,21 +90,12 @@ export function Footer() {
             aria-hidden
             data-motion
             className="select-none whitespace-nowrap text-[17.5vw] font-black uppercase leading-[0.78] tracking-[-0.06em] text-fg min-[1400px]:text-[15rem]"
-            style={{ fontStretch: "75%", perspective: "800px" }}
+            style={{
+              transform: "translate3d(0, calc((1 - var(--p, 1)) * 85%), 0)",
+              fontStretch: "75%",
+            }}
           >
-            {"Dachtler".split("").map((ch, i) => (
-              <span
-                key={i}
-                data-motion
-                className="inline-block"
-                style={{
-                  transform: `translate3d(0, calc((1 - var(--p, 1)) * ${90 + i * 14}%), 0) rotateX(calc((1 - var(--p, 1)) * -${70 + i * 4}deg))`,
-                  transformOrigin: "50% 100%",
-                }}
-              >
-                {ch}
-              </span>
-            ))}
+            Dachtler
           </div>
         </div>
         <div className="t-mono flex flex-wrap items-center justify-between gap-3 border-t border-rule py-6 text-muted">
