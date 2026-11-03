@@ -83,22 +83,9 @@ export function Contact() {
 
 export function Footer() {
   return (
-    <footer data-scroll="end" className="overflow-hidden border-t border-rule">
+    <footer className="border-t border-rule">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
-        <div className="overflow-hidden pt-10">
-          <div
-            aria-hidden
-            data-motion
-            className="select-none whitespace-nowrap text-[17.5vw] font-black uppercase leading-[0.78] tracking-[-0.06em] text-fg min-[1400px]:text-[15rem]"
-            style={{
-              transform: "translate3d(0, calc((1 - var(--p, 1)) * 85%), 0)",
-              fontStretch: "75%",
-            }}
-          >
-            Dachtler
-          </div>
-        </div>
-        <div className="t-mono flex flex-wrap items-center justify-between gap-3 border-t border-rule py-6 text-muted">
+        <div className="t-mono flex flex-wrap items-center justify-between gap-3 py-6 text-muted">
           <span>© {new Date().getFullYear()} Philipp Dachtler</span>
           <span>Planned, built and maintained solo and without AI</span>
         </div>
