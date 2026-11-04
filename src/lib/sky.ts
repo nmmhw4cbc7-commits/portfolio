@@ -1,17 +1,16 @@
 // Theme switch as a sunset / moonrise.
 //
-// Two viewport-sized bodies sweep across the page. Switching to dark, the sun
-// (already up, mid-screen) sinks off the right edge while a giant crescent
-// moon rises from the bottom left and travels all the way across and out on
-// the right. Switching back plays the same thing with the roles swapped.
+// One viewport-sized body sweeps across the page per switch: to dark, a giant
+// crescent moon rises from the bottom left, crosses the whole page and leaves
+// on the right; to light, the sun does the same.
 //
 // With View Transitions, the new theme is revealed exactly along the centre
 // of the arriving body: the mask edge and the body share one easing curve and
 // both move linearly in it, so they stay locked together for the whole sweep.
 // The sky layer has its own transition name so the wipe doesn't mask it.
 
-const DURATION = 2400;
-const EASE = "cubic-bezier(0.55, 0, 0.35, 1)";
+const DURATION = 2000;
+const EASE = "cubic-bezier(0.3, 0, 0.3, 1)";
 
 type VTDocument = Document & {
   startViewTransition?: (cb: () => void) => { finished: Promise<void> };
@@ -137,27 +136,7 @@ function playSky(toDark: boolean, { vw, vh, D, margin, x0, x1 }: Geo) {
 
   const mid = vh * 0.5;
 
-  // the departing body: already up mid-screen, sinks away to the right
-  const leaving = body(D, toDark ? SUN : moonStyle(D), layer);
-  const leaveOpts = {
-    duration: DURATION * 0.62,
-    easing: "cubic-bezier(0.5, 0, 0.75, 0)",
-    fill: "forwards" as const,
-  };
-  leaving.x.animate(
-    [{ transform: `translateX(${vw * 0.5}px)` }, { transform: `translateX(${x1}px)` }],
-    leaveOpts,
-  );
-  leaving.y.animate(
-    [
-      { transform: `translateY(${mid}px) scale(0.8)`, opacity: 0 },
-      { transform: `translateY(${mid + D * 0.05}px) scale(1)`, opacity: 1, offset: 0.15 },
-      { transform: `translateY(${mid + D * 0.45}px) scale(1)`, opacity: 1 },
-    ],
-    leaveOpts,
-  );
-
-  // the arriving body: rises from the bottom left, crosses the whole page, exits right
+  // the body: rises from the bottom left, crosses the whole page, exits right
   const arriving = body(D, toDark ? moonStyle(D) : SUN, layer);
   arriving.x.animate([{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }], {
     duration: DURATION,
