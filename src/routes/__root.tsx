@@ -35,12 +35,29 @@ function NotFoundComponent() {
   );
 }
 
+// After a new deploy, a tab that is still open on the old version asks for
+// JS chunks whose hashed filenames no longer exist. Reloading picks up the
+// new build; the session flag stops a reload loop if something else is wrong.
+const STALE_CHUNK =
+  /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS|Loading chunk .* failed/i;
+
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
+  const message = error instanceof Error ? error.message : String(error);
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
+    if (STALE_CHUNK.test(message)) {
+      try {
+        if (!sessionStorage.getItem("reloaded-for-new-build")) {
+          sessionStorage.setItem("reloaded-for-new-build", "1");
+          window.location.reload();
+        }
+      } catch {
+        /* storage blocked: leave the manual buttons */
+      }
+    }
+  }, [error, message]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -51,9 +68,11 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
+        <p className="mt-4 break-words font-mono text-xs text-muted-foreground">{message}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
+              if (STALE_CHUNK.test(message)) return window.location.reload();
               router.invalidate();
               reset();
             }}

@@ -34,9 +34,18 @@ function Index() {
   useEffect(() => {
     const stopScroll = initScrollAnimations();
     const stopDetails = initDetails();
+    // this build loaded fine, so a later deploy may auto-reload once again
+    const clearReloadFlag = setTimeout(() => {
+      try {
+        sessionStorage.removeItem("reloaded-for-new-build");
+      } catch {
+        /* storage blocked */
+      }
+    }, 3000);
     return () => {
       stopScroll?.();
       stopDetails();
+      clearTimeout(clearReloadFlag);
     };
   }, []);
 
