@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowDownRight } from "lucide-react";
 import { profile, tourStats } from "./data";
 import { useXray } from "@/lib/xray";
+import { Desk } from "./Desk";
 
 const lines = [
   { text: "Turning good", shift: -6 },
@@ -54,27 +55,51 @@ export function Hero() {
           </span>
         </div>
 
-        <h1
-          data-reveal="mask"
-          className="t-mega mt-10 sm:mt-14"
-          style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
-        >
-          {lines.map((l, i) => (
-            <span
-              key={l.text}
-              className="mask"
-              data-motion
-              style={{
-                // drift sideways and fold back into the page as you scroll away
-                transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), calc(var(--p, 0) * ${-i * 12}%), 0) rotateX(calc(var(--p, 0) * ${50 + i * 15}deg))`,
-                transformOrigin: "50% 100%",
-                ["--i" as string]: i,
-              }}
-            >
-              <span className={l.accent ? "text-accent" : undefined}>{l.text}</span>
-            </span>
-          ))}
-        </h1>
+        <div className="relative mt-10 sm:mt-14">
+          <h1
+            data-reveal="mask"
+            className="t-mega"
+            style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
+          >
+            {lines.map((l, i) => (
+              <span
+                key={l.text}
+                className="mask"
+                data-motion
+                style={{
+                  // drift sideways and fold back into the page as you scroll away
+                  transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), calc(var(--p, 0) * ${-i * 12}%), 0) rotateX(calc(var(--p, 0) * ${50 + i * 15}deg))`,
+                  transformOrigin: "50% 100%",
+                  ["--i" as string]: i,
+                }}
+              >
+                <span className={l.accent ? "text-accent" : undefined}>{l.text}</span>
+              </span>
+            ))}
+          </h1>
+
+          {/*
+          The desk stands on top of line 3 ("reliable software.") to the right of
+          line 1. Size comes from the same font size as the slogan: height spans
+          lines 1-2 plus a little headroom, width is capped by the space left
+          next to "Turning good" (≈ 6.72em wide), so it never overlaps the text.
+        */}
+          <div
+            className="pointer-events-none absolute right-0 hidden lg:block"
+            style={
+              {
+                "--fs": "clamp(2.9rem, 9.4vw, 9.5rem)",
+                "--h": "calc(var(--fs) * 1.62 + 40px)",
+                "--cw": "min(100vw - 64px, 1336px)",
+                top: "-40px",
+                height: "var(--h)",
+                width: "min(calc(var(--h) * 1.4545), calc(var(--cw) - var(--fs) * 6.72 - 28px))",
+              } as React.CSSProperties
+            }
+          >
+            <Desk />
+          </div>
+        </div>
 
         <div className="mt-14 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
           <div className="t-body max-w-xl space-y-4 text-muted md:col-span-7" data-reveal>

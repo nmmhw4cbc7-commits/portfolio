@@ -765,3 +765,254 @@
     border-top: 0.5pt solid var(--rule);
   }
 }
+
+/* ---------- Hero desk illustration (Desk.tsx) ---------- */
+.desk {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --desk-wood: var(--fg);
+  --desk-chair: #2b2b29;
+  --desk-chair-pad: #3a3a37;
+  --desk-metal: #8d8a83;
+  --desk-hoodie: var(--accent);
+  --desk-hood: #d84100;
+  --desk-skin: #e7b48f;
+  overflow: visible;
+}
+.dark .desk {
+  --desk-chair: #4a4945;
+  --desk-chair-pad: #5a5954;
+  --desk-hood: #c73c00;
+}
+.desk-shadow {
+  fill: var(--fg);
+  opacity: 0.08;
+}
+.desk-top {
+  fill: var(--desk-wood);
+}
+.desk-chair {
+  fill: var(--desk-chair);
+}
+.desk-chair-pad {
+  fill: var(--desk-chair-pad);
+}
+.desk-metal {
+  fill: var(--desk-metal);
+}
+.desk-wheel {
+  fill: var(--desk-chair);
+  stroke: var(--desk-metal);
+  stroke-width: 2;
+}
+.desk-hoodie {
+  fill: var(--desk-hoodie);
+}
+.desk-hood {
+  fill: var(--desk-hood);
+}
+.desk-arm {
+  fill: none;
+  stroke: var(--desk-hoodie);
+  stroke-width: 22;
+  stroke-linecap: round;
+}
+.desk-skin {
+  fill: var(--desk-skin);
+}
+.desk-strand {
+  fill: none;
+  stroke: #9a6a42;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+.desk-lid-edge {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.55);
+}
+.desk-hinge {
+  fill: #8f8b83;
+}
+.desk-sticker-accent {
+  fill: var(--accent);
+}
+.desk-sticker-dark {
+  fill: #1c1c1a;
+}
+.desk-sticker-light {
+  fill: #f6f3ec;
+  stroke: rgb(0 0 0 / 0.12);
+}
+.desk-sticker-text {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 500;
+}
+.desk-on-accent {
+  fill: #131312;
+  font-weight: 700;
+}
+.desk-on-dark {
+  fill: var(--accent);
+}
+.desk-on-light {
+  fill: #131312;
+  font-size: 6.5px;
+}
+.desk-mug {
+  fill: var(--fg);
+}
+.desk-mug-handle {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 4;
+}
+.desk-steam path {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: desk-steam 2.6s ease-in-out infinite;
+}
+.desk-steam path + path {
+  animation-delay: 1.3s;
+}
+.desk-leaf {
+  fill: #6f8f5a;
+}
+.dark .desk-leaf {
+  fill: #84a56d;
+}
+.desk-pot {
+  fill: #c9a27c;
+}
+.desk-screenlight {
+  mix-blend-mode: screen;
+  opacity: 0.25;
+}
+.dark .desk-screenlight {
+  opacity: 0.45;
+}
+
+/* idle: typing */
+.desk-head {
+  animation: desk-bob 0.9s ease-in-out infinite alternate;
+}
+.desk-arm-l {
+  animation: desk-type 0.22s ease-in-out infinite alternate;
+}
+.desk-arm-r {
+  animation: desk-type 0.22s ease-in-out 0.11s infinite alternate;
+}
+
+/* the launch: fast ease-in out to the right, leaning back from the acceleration */
+.desk-rider {
+  transform: translateX(0);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.desk-lean {
+  transform-origin: 240px 312px;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.desk[data-gone] .desk-rider {
+  transform: translateX(1600px);
+  transition: transform 0.42s cubic-bezier(0.7, 0, 1, 0.5);
+}
+.desk[data-gone] .desk-lean {
+  transform: rotate(-9deg);
+  transition: transform 0.18s ease-out;
+}
+.desk-speed line {
+  stroke: var(--fg);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.desk-speed,
+.desk-dust {
+  opacity: 0;
+}
+.desk-dust circle {
+  fill: var(--muted);
+}
+.desk[data-gone] .desk-speed {
+  animation: desk-flash 0.42s ease-out;
+}
+.desk[data-gone] .desk-dust {
+  animation: desk-dust 0.7s ease-out;
+}
+.desk[data-instant] .desk-rider,
+.desk[data-instant] .desk-lean {
+  transition: none;
+}
+.desk[data-instant] .desk-speed,
+.desk[data-instant] .desk-dust {
+  animation: none;
+}
+
+@keyframes desk-type {
+  to {
+    translate: 0 -1.5px;
+  }
+}
+@keyframes desk-bob {
+  to {
+    translate: 0 1.2px;
+  }
+}
+@keyframes desk-steam {
+  0% {
+    opacity: 0;
+    translate: 0 4px;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -8px;
+  }
+}
+@keyframes desk-flash {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes desk-dust {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6) translateX(-14px);
+  }
+}
+.desk-dust {
+  transform-origin: 240px 314px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-head,
+  .desk-arm-l,
+  .desk-arm-r,
+  .desk-steam path {
+    animation: none !important;
+  }
+  .desk[data-gone] .desk-rider {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .desk[data-gone] .desk-lean {
+    transform: none;
+  }
+}
