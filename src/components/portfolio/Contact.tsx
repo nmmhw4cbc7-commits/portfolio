@@ -165,7 +165,7 @@ export function Footer() {
             </kbd>
             <span>Hold for x-ray (or tap)</span>
           </button>
-          <span>Planned, built and maintained solo and without AI</span>
+          <span>Designed &amp; built by Philipp Dachtler, Co-Authored by Claude Code</span>
         </div>
       </div>
     </footer>
