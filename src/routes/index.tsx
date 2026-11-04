@@ -9,6 +9,7 @@ import { Kit } from "@/components/portfolio/Kit";
 import { Tours } from "@/components/portfolio/Tours";
 import { Wire } from "@/components/portfolio/Wire";
 import { XRay } from "@/components/portfolio/XRay";
+import { PrintCV } from "@/components/portfolio/PrintCV";
 import { Contact, Footer } from "@/components/portfolio/Contact";
 
 const title = "Philipp Dachtler — Fullstack Developer & System Integrator";
@@ -60,6 +61,7 @@ function Index() {
       <Contact />
       <Footer />
       <XRay />
+      <PrintCV />
     </main>
   );
 }

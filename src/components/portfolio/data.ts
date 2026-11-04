@@ -5,6 +5,8 @@ export const profile = {
   email: "allgemein@philipp-dachtler.de",
   github: "https://github.com/nmmhw4cbc7-commits",
   githubUser: "nmmhw4cbc7-commits",
+  linkedin: "https://www.linkedin.com/in/philipp-b22220421/",
+  website: "https://www.philipp-dachtler.de",
   intro:
     "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.",
 };
@@ -128,4 +130,35 @@ export const projects: Project[] = [
     stack: ["Native macOS App", "Swift", "SwiftUI"],
     icon: "laptop",
   },
+];
+
+export type Tech = { name: string; icon: string };
+
+export const languages: Tech[] = [
+  { name: "JavaScript", icon: "devicon-javascript-plain" },
+  { name: "TypeScript", icon: "devicon-typescript-plain" },
+  { name: "Python", icon: "devicon-python-plain" },
+  { name: "Java", icon: "devicon-java-plain" },
+  { name: "C#", icon: "devicon-csharp-plain" },
+];
+
+export const frameworks: Tech[] = [
+  { name: "React", icon: "devicon-react-original" },
+  { name: "Flutter", icon: "devicon-flutter-plain" },
+  { name: "Node.js", icon: "devicon-nodejs-plain" },
+  { name: "Swift", icon: "devicon-swift-plain" },
+  { name: "Docker", icon: "devicon-docker-plain" },
+];
+
+export const systems: Tech[] = [
+  { name: "macOS", icon: "devicon-apple-original" },
+  { name: "Linux", icon: "devicon-linux-plain" },
+  { name: "Git", icon: "devicon-git-plain" },
+  { name: "VS Code", icon: "devicon-vscode-plain" },
+];
+
+export const toolkit = [
+  { label: "Languages", items: languages },
+  { label: "Frameworks", items: frameworks },
+  { label: "Systems", items: systems },
 ];

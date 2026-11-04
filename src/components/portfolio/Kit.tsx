@@ -1,39 +1,8 @@
 import type { CSSProperties } from "react";
 import githubStats from "virtual:github-stats";
 import { SectionHead } from "./Trail";
-import { profile } from "./data";
+import { frameworks, languages, profile, systems, toolkit, type Tech } from "./data";
 import { useXray } from "@/lib/xray";
-
-type Tech = { name: string; icon: string };
-
-const languages: Tech[] = [
-  { name: "JavaScript", icon: "devicon-javascript-plain" },
-  { name: "TypeScript", icon: "devicon-typescript-plain" },
-  { name: "Python", icon: "devicon-python-plain" },
-  { name: "Java", icon: "devicon-java-plain" },
-  { name: "C#", icon: "devicon-csharp-plain" },
-];
-
-const frameworks: Tech[] = [
-  { name: "React", icon: "devicon-react-original" },
-  { name: "Flutter", icon: "devicon-flutter-plain" },
-  { name: "Node.js", icon: "devicon-nodejs-plain" },
-  { name: "Swift", icon: "devicon-swift-plain" },
-  { name: "Docker", icon: "devicon-docker-plain" },
-];
-
-const systems: Tech[] = [
-  { name: "macOS", icon: "devicon-apple-original" },
-  { name: "Linux", icon: "devicon-linux-plain" },
-  { name: "Git", icon: "devicon-git-plain" },
-  { name: "VS Code", icon: "devicon-vscode-plain" },
-];
-
-const groups = [
-  { label: "Languages", items: languages },
-  { label: "Frameworks", items: frameworks },
-  { label: "Systems", items: systems },
-];
 
 function Item({ name, icon, outline }: Tech & { outline?: boolean | undefined }) {
   return (
@@ -179,7 +148,7 @@ export function Kit() {
           />
         </div>
         <ul className="t-mono self-end lg:col-span-5">
-          {groups.map((g, i) => (
+          {toolkit.map((g, i) => (
             <li
               key={g.label}
               data-reveal

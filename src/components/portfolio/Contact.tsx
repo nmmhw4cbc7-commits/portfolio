@@ -5,7 +5,7 @@ import { useXray } from "@/lib/xray";
 
 const channels = [
   { label: "GitHub profile", href: profile.github },
-  { label: "LinkedIn profile", href: "https://www.linkedin.com/in/philipp-b22220421/" },
+  { label: "LinkedIn profile", href: profile.linkedin },
 ];
 
 export function Contact() {
