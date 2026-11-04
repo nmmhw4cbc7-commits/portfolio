@@ -37,7 +37,7 @@ function Row({
   outline?: boolean;
 }) {
   return (
-    <div data-motion data-v style={{ transform: `${shift} skewX(calc(var(--v, 0) * -16deg))` }}>
+    <div data-motion style={{ transform: `${shift} skewX(calc(var(--v, 0) * -16deg))` }}>
       <div
         className={`marquee ${reverse ? "reverse" : ""}`}
         style={{ "--speed": speed } as CSSProperties}

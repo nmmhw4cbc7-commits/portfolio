@@ -16,18 +16,8 @@
 //      data-scroll="card"    : like "enter", plus `--x` / `--ax`: signed / absolute
 //                              horizontal distance of its centre from the
 //                              viewport centre, in viewport widths
-// 3. `--page` is overall page progress, `--v` is smoothed scroll velocity
-//    (-1 → 1) that decays back to 0 when scrolling stops. They are written only
-//    onto elements that opt in with `data-page` / `data-v`, never onto <html>:
-//    a custom property on the root invalidates the style of every element on
-//    the page, every frame.
-//
-// Performance: each frame first reads every rect, then writes every value,
-// and skips values that didn't change, so the browser recalculates styles
-// once per frame instead of once per tracked element.
-
-/** Latest values, for the x-ray HUD. */
-export const scrollState = { v: 0, page: 0 };
+// 3. `--page` on <html> is overall page progress, `--v` is smoothed scroll
+//    velocity (-1 → 1) that decays back to 0 when scrolling stops.
 
 const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -56,21 +46,10 @@ export default function initScrollAnimations(): (() => void) | void {
   }
 
   const tracked = Array.from(document.querySelectorAll<HTMLElement>("[data-scroll]"));
-  const vTargets = Array.from(document.querySelectorAll<HTMLElement>("[data-v]"));
-  const pageTargets = Array.from(document.querySelectorAll<HTMLElement>("[data-page]"));
   const root = document.documentElement;
-  const last = new WeakMap<HTMLElement, Record<string, string>>();
   let frame = 0;
   let lastY = window.scrollY;
   let vel = 0;
-
-  const write = (el: HTMLElement, name: string, value: string) => {
-    let prev = last.get(el);
-    if (!prev) last.set(el, (prev = {}));
-    if (prev[name] === value) return;
-    prev[name] = value;
-    el.style.setProperty(name, value);
-  };
 
   const request = () => {
     if (!frame) frame = requestAnimationFrame(update);
@@ -78,28 +57,20 @@ export default function initScrollAnimations(): (() => void) | void {
 
   const update = () => {
     frame = 0;
-    // ---- read phase: nothing below this line writes until the write phase
     const vh = window.innerHeight;
     const vw = window.innerWidth;
-    const y = window.scrollY;
-    const max = root.scrollHeight - vh;
-    const rects = tracked.map((el) => el.getBoundingClientRect());
 
-    const dy = y - lastY;
-    lastY = y;
+    const dy = window.scrollY - lastY;
+    lastY = window.scrollY;
     vel += (dy - vel) * 0.18;
     if (Math.abs(vel) < 0.05) vel = 0;
-    scrollState.v = Math.max(-1, Math.min(1, vel / 50));
-    scrollState.page = max > 0 ? clamp(y / max) : 0;
+    root.style.setProperty("--v", Math.max(-1, Math.min(1, vel / 50)).toFixed(4));
 
-    // ---- write phase
-    const v = scrollState.v.toFixed(3);
-    const page = scrollState.page.toFixed(4);
-    for (const el of vTargets) write(el, "--v", v);
-    for (const el of pageTargets) write(el, "--page", page);
+    const max = root.scrollHeight - vh;
+    root.style.setProperty("--page", (max > 0 ? clamp(window.scrollY / max) : 0).toFixed(4));
 
-    tracked.forEach((el, i) => {
-      const r = rects[i]!;
+    for (const el of tracked) {
+      const r = el.getBoundingClientRect();
       let p = 0;
       switch (el.dataset["scroll"]) {
         case "exit":
@@ -120,15 +91,15 @@ export default function initScrollAnimations(): (() => void) | void {
         case "card": {
           p = (vh - r.top) / (vh * 0.5);
           const x = (r.left + r.width / 2 - vw / 2) / vw;
-          write(el, "--x", x.toFixed(4));
-          write(el, "--ax", Math.abs(x).toFixed(4));
+          el.style.setProperty("--x", x.toFixed(4));
+          el.style.setProperty("--ax", Math.abs(x).toFixed(4));
           break;
         }
         default:
           p = (vh - r.top) / (vh + r.height);
       }
-      write(el, "--p", clamp(p).toFixed(4));
-    });
+      el.style.setProperty("--p", clamp(p).toFixed(4));
+    }
 
     // keep ticking while the velocity eases back to rest
     if (vel !== 0 && !reduce) request();

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { renderCount } from "@/lib/xray";
-import { scrollState } from "@/lib/scroll-animate";
 
 /*
  * X-ray mode: hold ⌥ (Option) / Alt and the page shows how it is built.
@@ -129,8 +128,8 @@ export function XRay() {
         fps: Math.round(1000 / smooth),
         frame: smooth,
         nodes: document.getElementsByTagName("*").length,
-        v: String(scrollState.v),
-        page: String(scrollState.page),
+        v: root.style.getPropertyValue("--v") || "0",
+        page: root.style.getPropertyValue("--page") || "0",
         motion: document.querySelectorAll("[data-motion]").length,
       });
       raf = requestAnimationFrame(tick);

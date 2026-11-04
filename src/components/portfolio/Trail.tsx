@@ -147,7 +147,6 @@ export function SectionHead({
       <h2
         data-reveal="mask"
         data-motion
-        data-v
         className="t-display mt-6"
         style={{ transform: "skewY(calc(var(--v, 0) * -4deg))", transformOrigin: "0 100%" }}
       >

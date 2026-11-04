@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { ArrowDownRight } from "lucide-react";
 import { profile, tourStats } from "./data";
 import { useXray } from "@/lib/xray";
-import { Desk } from "./Desk";
 
-const lines: { text: string; after?: string; shift: number; accent?: boolean }[] = [
+const lines = [
   { text: "Turning good", shift: -6 },
   { text: "ideas into", shift: 9 },
-  { text: "reliable", after: "software.", shift: -4, accent: true },
+  { text: "reliable software.", shift: -4, accent: true },
 ];
 
 // Live wall-clock time in Schifferstadt. Renders a placeholder on the server
@@ -55,42 +54,27 @@ export function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 sm:mt-14 lg:grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-center lg:gap-10">
-          <h1
-            data-reveal="mask"
-            className="t-mega hero-slogan"
-            style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
-          >
-            {lines.map((l, i) => (
-              <span
-                key={l.text}
-                className="mask"
-                data-motion
-                style={{
-                  // drift sideways and fold back into the page as you scroll away
-                  transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), calc(var(--p, 0) * ${-i * 12}%), 0) rotateX(calc(var(--p, 0) * ${50 + i * 15}deg))`,
-                  transformOrigin: "50% 100%",
-                  ["--i" as string]: i,
-                }}
-              >
-                <span className={l.accent ? "text-accent" : undefined}>
-                  {l.text}
-                  {l.after && (
-                    <>
-                      {/* on large screens the last line breaks in two to make room for the desk */}
-                      <br className="hidden lg:inline" /> {l.after}
-                    </>
-                  )}
-                </span>
-              </span>
-            ))}
-          </h1>
-
-          {/* desk scene beside the slogan, vertically centred on it */}
-          <div className="pointer-events-none hidden aspect-[520/380] w-full lg:block">
-            <Desk />
-          </div>
-        </div>
+        <h1
+          data-reveal="mask"
+          className="t-mega mt-10 sm:mt-14"
+          style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
+        >
+          {lines.map((l, i) => (
+            <span
+              key={l.text}
+              className="mask"
+              data-motion
+              style={{
+                // drift sideways and fold back into the page as you scroll away
+                transform: `translate3d(calc(var(--p, 0) * ${l.shift}vw), calc(var(--p, 0) * ${-i * 12}%), 0) rotateX(calc(var(--p, 0) * ${50 + i * 15}deg))`,
+                transformOrigin: "50% 100%",
+                ["--i" as string]: i,
+              }}
+            >
+              <span className={l.accent ? "text-accent" : undefined}>{l.text}</span>
+            </span>
+          ))}
+        </h1>
 
         <div className="mt-14 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
           <div className="t-body max-w-xl space-y-4 text-muted md:col-span-7" data-reveal>
@@ -154,7 +138,6 @@ function Band() {
     >
       <div
         data-motion
-        data-v
         className="flex w-max items-center whitespace-nowrap"
         style={{
           transform:

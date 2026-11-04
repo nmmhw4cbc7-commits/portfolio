@@ -170,8 +170,7 @@ export function Nav() {
       <div
         aria-hidden
         className="absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-accent"
-        data-page
-        style={{ transform: "scaleX(var(--page, 0))" }}
+        style={{ transform: "scaleX(var(--page))" }}
       />
 
       <div
