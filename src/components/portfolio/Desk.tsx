@@ -7,67 +7,138 @@ import { useXray } from "@/lib/xray";
  * the face), sitting on an office chair; knees, shins and sneakers show under
  * the desk.
  *
- *  seated    → typing idle
- *  gone      → scrolled past the point where the scene is fully in view:
- *              he rolls off to the right with the chair
- *  returning → back at the top: he walks back in from the right (side view,
- *              head hanging), pulling the chair behind him, then sits down
+ *  seated    → typing idle. The ride out is scrubbed by scroll: over the first
+ *              RIDE px he rolls off to the right (accelerating, leaning back),
+ *              so the whole ride happens while the scene is fully in view, at
+ *              whatever speed you scroll.
+ *  gone      → he's off screen
+ *  returning → scrolled back up to the scene: he walks in from the right (side
+ *              view, head hanging) pulling the chair, then sits and pulls in
  *
  * Pure SVG + CSS (styles.css, "Hero desk"). Coordinates: viewBox 520 × 380,
  * floor at y = 370, the seated person is centred on x = 260.
  */
 
 type State = "seated" | "gone" | "returning";
-// He leaves once the scene is fully in view: when its bottom edge has come up
-// to 85% of the viewport height (or after 24px, if it starts out that high).
-const VIEW_LINE = 0.85;
-const WALK_MS = 2800; // keep in sync with .desk-walker animation in styles.css
+const WALK_MS = 2400; // keep in sync with .desk-walker animation in styles.css
+const NAV = 64; // fixed header height
 
 export function Desk() {
   const xray = useXray("Desk");
   const [state, setState] = useState<State>("seated");
-  const [instant, setInstant] = useState(true);
   const stateRef = useRef<State>("seated");
   const svgRef = useRef<SVGSVGElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const q = <T extends Element>(sel: string) => svg.querySelector<T>(sel)!;
+    const rider = q<SVGGElement>(".desk-rider");
+    const lean = q<SVGGElement>(".dk-lean");
+    const speed = q<SVGGElement>(".dk-speed");
+    const dust = q<SVGGElement>(".dk-dust");
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+    let ride = 140; // px of scroll over which he rolls out
+    let off = 700; // viewBox units to travel until he's past the window edge
+    let base = 0; // scroll position the ride is measured from
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let frame = 0;
+    let shown = 0; // displayed ride progress, eased towards the scroll position
+
     const set = (s: State) => {
       stateRef.current = s;
       setState(s);
     };
-    let threshold = 24;
+
     const measure = () => {
-      const el = svgRef.current;
-      if (!el) return;
-      const bottom = el.getBoundingClientRect().bottom + window.scrollY;
-      threshold = Math.max(24, bottom - window.innerHeight * VIEW_LINE);
+      const r = svg.getBoundingClientRect();
+      // finish the ride before the chair back (y = 66 of 380) slides under the header
+      ride = Math.max(110, r.top + window.scrollY + (66 / 380) * r.height - NAV - 8);
+      const scale = r.width / 520 || 1;
+      off = Math.round((window.innerWidth - r.right) / scale + 520 - 150 + 40);
+      svg.style.setProperty("--dk-off", `${off}px`);
     };
+
+    const pose = (p: number) => {
+      const e = p * p; // accelerate away
+      rider.style.transform = reduce ? "" : `translateX(${(off * e).toFixed(1)}px)`;
+      rider.style.opacity = reduce ? String(1 - p) : "";
+      lean.style.transform = `rotate(${(-7 * Math.min(1, p * 3)).toFixed(2)}deg)`;
+      speed.style.opacity = String((Math.sin(Math.PI * Math.min(1, p * 1.2)) * 0.75).toFixed(3));
+      dust.style.opacity = String((p > 0 && p < 0.5 ? (1 - p * 2) * 0.6 : 0).toFixed(3));
+      dust.style.transform = `scale(${(0.6 + p * 2).toFixed(3)}) translateX(${(-p * 30).toFixed(1)}px)`;
+    };
+
+    const sitDown = () => {
+      timer = undefined;
+      base = window.scrollY;
+      shown = 0;
+      pose(0);
+      // appear right beside the desk, then pull the chair in
+      rider.style.transition = "none";
+      rider.style.transform = "translateX(110px)";
+      set("seated");
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          rider.style.transition =
+            "transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease-out";
+          rider.style.transform = "translateX(0px)";
+          setTimeout(() => (rider.style.transition = ""), 650);
+        }),
+      );
+    };
+
     const update = () => {
-      const down = window.scrollY > threshold;
+      frame = 0;
+      const y = window.scrollY;
       const s = stateRef.current;
-      if (down && s !== "gone") {
-        clearTimeout(timer.current);
+      if (s === "seated") {
+        if (y <= 2) base = 0;
+        const target = Math.min(1, Math.max(0, (y - base) / ride));
+        // follow the scroll softly, so even a flick reads as a ride
+        shown += (target - shown) * 0.34;
+        if (Math.abs(target - shown) < 0.002) shown = target;
+        if (shown >= 0.998) {
+          shown = 1;
+          pose(1);
+          set("gone");
+          return;
+        }
+        if (!rider.style.transition) pose(shown);
+        if (shown !== target) frame = requestAnimationFrame(update);
+      } else if (s === "gone") {
+        // back up far enough that the scene is fully in view again
+        if (y < ride * 0.6) {
+          set("returning");
+          timer = setTimeout(sitDown, reduce ? 0 : WALK_MS);
+        }
+      } else if (y > ride) {
+        clearTimeout(timer);
+        timer = undefined;
         set("gone");
-      } else if (!down && s === "gone") {
-        set("returning");
-        timer.current = setTimeout(() => set("seated"), WALK_MS);
       }
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
     };
     const onResize = () => {
       measure();
       update();
     };
+
     measure();
-    update(); // a reload mid-page starts with him already gone, without the ride
-    const id = requestAnimationFrame(() => requestAnimationFrame(() => setInstant(false)));
-    window.addEventListener("scroll", update, { passive: true });
+    if (window.scrollY > ride) {
+      pose(1); // a reload mid-page starts with him already gone
+      set("gone");
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      cancelAnimationFrame(id);
-      clearTimeout(timer.current);
-      window.removeEventListener("scroll", update);
     };
   }, []);
 
@@ -77,7 +148,6 @@ export function Desk() {
       ref={svgRef}
       className="desk"
       data-state={state}
-      data-instant={instant || undefined}
       viewBox="0 0 520 380"
       preserveAspectRatio="xMaxYMax meet"
       role="img"

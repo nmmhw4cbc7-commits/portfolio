@@ -976,35 +976,14 @@
   animation: dk-type 0.24s ease-in-out 0.12s infinite alternate;
 }
 
-/* ---- the rider: seated person + chair ---- */
-.desk-rider {
-  transform: none;
-  opacity: 1;
-  transition:
-    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 0.35s ease-out;
-}
+/* ---- the rider: seated person + chair (moved by Desk.tsx while scrolling) ---- */
 .dk-lean {
   transform-origin: 260px 368px;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-/* ride out: accelerates away to the right, leaning back */
-.desk[data-state="gone"] .desk-rider {
-  transform: translateX(1500px);
-  transition: transform 1.05s cubic-bezier(0.55, 0, 0.85, 0.45);
-}
-.desk[data-state="gone"] .dk-lean {
-  transform: rotate(-7deg);
-  transition: transform 0.35s ease-out;
-}
-/* while he walks back the seated version waits, invisible, beside the desk;
-   on "seated" it fades in and the chair is pulled the last bit to the desk */
+.desk[data-state="gone"] .desk-rider,
 .desk[data-state="returning"] .desk-rider {
-  transform: translateX(110px);
   opacity: 0;
-  transition: none;
 }
-
 .dk-speed line {
   stroke: var(--fg);
   stroke-width: 3;
@@ -1020,12 +999,6 @@
 .dk-dust circle {
   fill: var(--muted);
 }
-.desk[data-state="gone"] .dk-speed {
-  animation: dk-flash 0.9s ease-out;
-}
-.desk[data-state="gone"] .dk-dust {
-  animation: dk-dust 1s ease-out;
-}
 
 /* ---- the walker: back in from the right, pulling the chair ---- */
 .desk-walker {
@@ -1037,8 +1010,8 @@
 .desk[data-state="returning"] .desk-walker {
   opacity: 1;
   transition: none;
-  /* 2.8s: keep in sync with WALK_MS in Desk.tsx */
-  animation: dk-walk-in 2.8s cubic-bezier(0.25, 0.6, 0.35, 1) both;
+  /* 2.4s: keep in sync with WALK_MS in Desk.tsx */
+  animation: dk-walk-in 2.4s cubic-bezier(0.3, 0.4, 0.4, 1) both;
 }
 .dk-leg {
   transform-origin: 206px 232px;
@@ -1060,16 +1033,6 @@
 }
 .desk[data-state="returning"] .dk-caster {
   animation: dk-roll 0.6s linear infinite;
-}
-
-.desk[data-instant] .desk-rider,
-.desk[data-instant] .dk-lean,
-.desk[data-instant] .desk-walker {
-  transition: none;
-}
-.desk[data-instant] .dk-speed,
-.desk[data-instant] .dk-dust {
-  animation: none;
 }
 
 @keyframes dk-type {
@@ -1095,30 +1058,9 @@
     translate: 0 -9px;
   }
 }
-@keyframes dk-flash {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes dk-dust {
-  0% {
-    opacity: 0.6;
-    transform: scale(0.6);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.6) translateX(-16px);
-  }
-}
 @keyframes dk-walk-in {
   from {
-    transform: translateX(1500px);
+    transform: translateX(var(--dk-off, 700px));
   }
   to {
     transform: translateX(150px);
@@ -1157,15 +1099,16 @@
   .desk-walker {
     animation: none !important;
   }
-  .desk[data-state="gone"] .desk-rider {
-    transform: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .desk[data-state="gone"] .dk-lean {
-    transform: none;
-  }
   .desk[data-state="returning"] .desk-walker {
     opacity: 0;
+  }
+}
+
+/* Hero slogan on large screens shares the row with the desk scene (Hero.tsx):
+   sized so its widest line, "Turning good" (≈ 6.95em), fills the left column
+   (1.55 / 2.55 of the container, minus the 2.5rem gap). */
+@media (min-width: 1024px) {
+  .hero-slogan {
+    font-size: min(calc((min(100vw - 64px, 1336px) - 2.5rem) * 0.6078 / 6.95), 9.5rem);
   }
 }

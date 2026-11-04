@@ -4,10 +4,10 @@ import { profile, tourStats } from "./data";
 import { useXray } from "@/lib/xray";
 import { Desk } from "./Desk";
 
-const lines = [
+const lines: { text: string; after?: string; shift: number; accent?: boolean }[] = [
   { text: "Turning good", shift: -6 },
   { text: "ideas into", shift: 9 },
-  { text: "reliable software.", shift: -4, accent: true },
+  { text: "reliable", after: "software.", shift: -4, accent: true },
 ];
 
 // Live wall-clock time in Schifferstadt. Renders a placeholder on the server
@@ -55,10 +55,10 @@ export function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 sm:mt-14">
+        <div className="mt-10 sm:mt-14 lg:grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-center lg:gap-10">
           <h1
             data-reveal="mask"
-            className="t-mega"
+            className="t-mega hero-slogan"
             style={{ "--d": "150ms", perspective: "900px" } as React.CSSProperties}
           >
             {lines.map((l, i) => (
@@ -73,17 +73,27 @@ export function Hero() {
                   ["--i" as string]: i,
                 }}
               >
-                <span className={l.accent ? "text-accent" : undefined}>{l.text}</span>
+                <span className={l.accent ? "text-accent" : undefined}>
+                  {l.text}
+                  {l.after && (
+                    <>
+                      {/* on large screens the last line breaks in two to make room for the desk */}
+                      <br className="hidden lg:inline" /> {l.after}
+                    </>
+                  )}
+                </span>
               </span>
             ))}
           </h1>
+
+          {/* desk scene beside the slogan, vertically centred on it */}
+          <div className="pointer-events-none hidden aspect-[520/380] w-full lg:block">
+            <Desk />
+          </div>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-rule pt-8 md:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-y-8">
-          <div
-            className="t-body max-w-xl space-y-4 text-muted md:col-span-7 lg:row-start-1"
-            data-reveal
-          >
+        <div className="mt-14 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
+          <div className="t-body max-w-xl space-y-4 text-muted md:col-span-7" data-reveal>
             {intro.map((p, i) => (
               <p key={i} className={i === 0 ? "text-fg" : undefined}>
                 {p}
@@ -92,7 +102,7 @@ export function Hero() {
           </div>
 
           <div
-            className="flex flex-wrap items-start gap-3 md:col-span-5 md:justify-end lg:col-span-7 lg:col-start-1 lg:row-start-2 lg:justify-start"
+            className="flex flex-wrap items-start gap-3 md:col-span-5 md:justify-end"
             data-reveal
             style={{ "--d": "120ms" } as React.CSSProperties}
           >
@@ -103,11 +113,6 @@ export function Hero() {
             <a href="#contact" className="btn" data-magnetic data-scramble-host>
               <span data-scramble>Get in touch</span>
             </a>
-          </div>
-
-          {/* desk scene, right column on large screens */}
-          <div className="pointer-events-none hidden aspect-[520/380] w-full lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:block">
-            <Desk />
           </div>
         </div>
 
@@ -149,6 +154,7 @@ function Band() {
     >
       <div
         data-motion
+        data-v
         className="flex w-max items-center whitespace-nowrap"
         style={{
           transform:
