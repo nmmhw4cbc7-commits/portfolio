@@ -9,8 +9,33 @@
 // both move linearly in it, so they stay locked together for the whole sweep.
 // The sky layer has its own transition name so the wipe doesn't mask it.
 
-const DURATION = 2000;
-const EASE = "cubic-bezier(0.3, 0, 0.3, 1)";
+const DURATION = 1500;
+const BEZIER = [0.3, 0, 0.3, 1] as const;
+const EASE = `cubic-bezier(${BEZIER.join(", ")})`;
+
+// The same curve as EASE, evaluated in JS, so the body's sampled path and the
+// CSS mask wipe stay in lockstep. Solves x(t) = time by Newton, then returns y.
+function cubicBezier(p1x: number, p1y: number, p2x: number, p2y: number) {
+  const cx = 3 * p1x,
+    bx = 3 * (p2x - p1x) - cx,
+    ax = 1 - cx - bx;
+  const cy = 3 * p1y,
+    by = 3 * (p2y - p1y) - cy,
+    ay = 1 - cy - by;
+  const sx = (t: number) => ((ax * t + bx) * t + cx) * t;
+  const dx = (t: number) => (3 * ax * t + 2 * bx) * t + cx;
+  const sy = (t: number) => ((ay * t + by) * t + cy) * t;
+  return (time: number) => {
+    let t = time;
+    for (let i = 0; i < 8; i++) {
+      const d = dx(t);
+      if (Math.abs(d) < 1e-6) break;
+      t -= (sx(t) - time) / d;
+    }
+    return sy(Math.min(1, Math.max(0, t)));
+  };
+}
+const ease = cubicBezier(...BEZIER);
 
 type VTDocument = Document & {
   startViewTransition?: (cb: () => void) => { finished: Promise<void> };
@@ -78,9 +103,7 @@ function moonStyle(D: number) {
 }
 
 function body(D: number, style: Partial<CSSStyleDeclaration>, parent: HTMLElement) {
-  // outer node moves on x, inner node on y, so x stays affine in the easing
-  const x = el({ position: "absolute", left: "0", top: "0", width: "0", height: "0" }, parent);
-  const y = el({ position: "absolute", left: "0", top: "0", width: "0", height: "0" }, x);
+  const wrap = el({ position: "absolute", left: "0", top: "0", width: "0", height: "0" }, parent);
   el(
     {
       position: "absolute",
@@ -90,9 +113,9 @@ function body(D: number, style: Partial<CSSStyleDeclaration>, parent: HTMLElemen
       top: `${-D / 2}px`,
       ...style,
     },
-    y,
+    wrap,
   );
-  return { x, y };
+  return wrap;
 }
 
 function playSky(toDark: boolean, { vw, vh, D, margin, x0, x1 }: Geo) {
@@ -136,21 +159,25 @@ function playSky(toDark: boolean, { vw, vh, D, margin, x0, x1 }: Geo) {
 
   const mid = vh * 0.5;
 
-  // the body: rises from the bottom left, crosses the whole page, exits right
-  const arriving = body(D, toDark ? moonStyle(D) : SUN, layer);
-  arriving.x.animate([{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }], {
-    duration: DURATION,
-    easing: EASE,
-    fill: "forwards",
-  });
-  arriving.y.animate(
-    [
-      { transform: `translateY(${mid + D * 0.45}px)` },
-      { transform: `translateY(${mid - D * 0.05}px)`, offset: 0.5 },
-      { transform: `translateY(${mid + D * 0.2}px)` },
-    ],
-    { duration: DURATION, easing: "ease-in-out", fill: "forwards" },
-  );
+  // the body rides one clean parabola: low on the left, highest at the centre,
+  // low again on the right. Positions are sampled densely from the eased
+  // progress and played back linearly, so there is no per-axis easing that
+  // could make the path wobble.
+  const orb = body(D, toDark ? moonStyle(D) : SUN, layer);
+  const edgeY = mid + D * 0.42;
+  const peakY = mid - D * 0.04;
+  const half = (x1 - x0) / 2;
+  const centre = (x0 + x1) / 2;
+  const STEPS = 90;
+  const frames: Keyframe[] = [];
+  for (let i = 0; i <= STEPS; i++) {
+    const t = i / STEPS;
+    const x = x0 + (x1 - x0) * ease(t);
+    const u = (x - centre) / half; // -1 … 1
+    const y = peakY + (edgeY - peakY) * u * u;
+    frames.push({ transform: `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`, offset: t });
+  }
+  orb.animate(frames, { duration: DURATION, easing: "linear", fill: "forwards" });
 
   document.body.appendChild(layer);
   layer
