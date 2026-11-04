@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
+import { switchTheme } from "@/lib/sky";
 import { useXray } from "@/lib/xray";
 
 const links = [
@@ -119,7 +121,14 @@ export function Nav() {
           <button
             type="button"
             aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-            onClick={() => setDark((v) => !v)}
+            onClick={() => {
+              const next = !dark;
+              switchTheme(next, () => {
+                // apply synchronously so the view transition captures the new theme
+                document.documentElement.classList.toggle("dark", next);
+                flushSync(() => setDark(next));
+              });
+            }}
             className="t-mono flex h-9 items-center gap-2 border border-rule px-3 transition-colors hover:border-fg"
           >
             <span

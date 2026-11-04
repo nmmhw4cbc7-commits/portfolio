@@ -454,3 +454,39 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---------- Theme switch: sunset / moonrise (see src/lib/sky.ts) ---------- */
+.sky-layer {
+  view-transition-name: sky;
+}
+::view-transition-group(sky),
+::view-transition-old(sky),
+::view-transition-new(sky) {
+  animation: none;
+}
+:root[data-sky] {
+  view-transition-name: root;
+}
+:root[data-sky]::view-transition-old(root),
+:root[data-sky]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* the new theme follows the rising body in from the left, with a soft edge */
+:root[data-sky]::view-transition-new(root) {
+  mask-image: linear-gradient(90deg, #000 0 40%, transparent 60%);
+  mask-size: 300% 100%;
+  mask-repeat: no-repeat;
+  animation: sky-wipe 1.5s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes sky-wipe {
+  from {
+    mask-position: 100% 0;
+  }
+  to {
+    mask-position: 0 0;
+  }
+}
+:root[data-sky] body {
+  transition: none;
+}
