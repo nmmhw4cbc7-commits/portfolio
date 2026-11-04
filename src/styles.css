@@ -771,198 +771,318 @@
   display: block;
   width: 100%;
   height: 100%;
-  --desk-wood: var(--fg);
-  --desk-chair: #2b2b29;
-  --desk-chair-pad: #3a3a37;
-  --desk-metal: #8d8a83;
-  --desk-hoodie: var(--accent);
-  --desk-hood: #d84100;
-  --desk-skin: #e7b48f;
   overflow: visible;
+  --dk-wood: var(--fg);
+  --dk-chair: #2b2b29;
+  --dk-chair-pad: #3b3b38;
+  --dk-metal: #8d8a83;
+  --dk-hoodie: var(--accent);
+  --dk-hood: #d94300;
+  --dk-seam: rgb(0 0 0 / 0.12);
+  --dk-skin: #e8b690;
+  --dk-skin-shade: #c98f69;
+  --dk-shoe: #f5f2eb;
 }
 .dark .desk {
-  --desk-chair: #4a4945;
-  --desk-chair-pad: #5a5954;
-  --desk-hood: #c73c00;
+  --dk-chair: #4a4945;
+  --dk-chair-pad: #5a5954;
+  --dk-hood: #c73c00;
 }
-.desk-shadow {
+.dk-shadow {
   fill: var(--fg);
   opacity: 0.08;
 }
-.desk-top {
-  fill: var(--desk-wood);
+.dk-top {
+  fill: var(--dk-wood);
 }
-.desk-chair {
-  fill: var(--desk-chair);
+.dk-chair {
+  fill: var(--dk-chair);
 }
-.desk-chair-pad {
-  fill: var(--desk-chair-pad);
+.dk-chair-pad {
+  fill: var(--dk-chair-pad);
 }
-.desk-metal {
-  fill: var(--desk-metal);
+.dk-metal {
+  fill: var(--dk-metal);
 }
-.desk-wheel {
-  fill: var(--desk-chair);
-  stroke: var(--desk-metal);
+.dk-wheel {
+  fill: var(--dk-chair);
+  stroke: var(--dk-metal);
+  stroke-width: 2.5;
+}
+.dk-spoke {
+  stroke: var(--dk-metal);
   stroke-width: 2;
 }
-.desk-hoodie {
-  fill: var(--desk-hoodie);
+.dk-hoodie {
+  fill: var(--dk-hoodie);
 }
-.desk-hood {
-  fill: var(--desk-hood);
+.dk-hood {
+  fill: var(--dk-hood);
 }
-.desk-arm {
+.dk-seam {
   fill: none;
-  stroke: var(--desk-hoodie);
+  stroke: var(--dk-seam);
+  stroke-width: 1.5;
+}
+.dk-sleeve {
+  fill: none;
+  stroke: var(--dk-hoodie);
   stroke-width: 22;
   stroke-linecap: round;
 }
-.desk-skin {
-  fill: var(--desk-skin);
+.dk-sleeve-up {
+  stroke-width: 26;
 }
-.desk-strand {
+.dk-cuff {
   fill: none;
-  stroke: #9a6a42;
+  stroke: var(--dk-hood);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.dk-skin {
+  fill: var(--dk-skin);
+}
+.dk-crease {
+  fill: none;
+  stroke: var(--dk-hood);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.dk-knee {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.12);
   stroke-width: 2;
   stroke-linecap: round;
-  opacity: 0.7;
 }
-.desk-lid-edge {
+.dk-ear {
+  fill: none;
+  stroke: var(--dk-skin-shade);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.dk-whorl,
+.dk-strand {
+  fill: none;
+  stroke: #3e2512;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+.dk-strand-hi {
+  stroke: #a9764a;
+  opacity: 0.8;
+}
+.dk-shoe path:first-child,
+.dk-shoe-side {
+  fill: var(--dk-shoe);
+}
+.dk-sole {
+  stroke: #cfc9bd;
+  stroke-width: 3;
+}
+.dk-stripe {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.dk-pants {
+  fill: none;
+  stroke: #2f3a4d;
+  stroke-width: 24;
+  stroke-linecap: round;
+}
+.dk-pants-near {
+  stroke: #3d4b63;
+}
+.dk-lid-edge {
   fill: none;
   stroke: rgb(255 255 255 / 0.55);
 }
-.desk-hinge {
+.dk-hinge {
   fill: #8f8b83;
 }
-.desk-sticker-accent {
+.dk-st-accent {
   fill: var(--accent);
 }
-.desk-sticker-dark {
+.dk-st-dark {
   fill: #1c1c1a;
 }
-.desk-sticker-light {
+.dk-st-light {
   fill: #f6f3ec;
   stroke: rgb(0 0 0 / 0.12);
 }
-.desk-sticker-text {
+.dk-st-text {
   font-family: var(--font-mono);
-  font-size: 7.5px;
+  font-size: 8px;
   font-weight: 500;
 }
-.desk-on-accent {
+.dk-on-accent {
   fill: #131312;
   font-weight: 700;
 }
-.desk-on-dark {
+.dk-on-dark {
   fill: var(--accent);
 }
-.desk-on-light {
+.dk-on-light {
   fill: #131312;
-  font-size: 6.5px;
+  font-size: 7px;
 }
-.desk-mug {
+.dk-mug {
   fill: var(--fg);
 }
-.desk-mug-handle {
+.dk-mug-handle {
   fill: none;
   stroke: var(--fg);
-  stroke-width: 4;
+  stroke-width: 4.5;
 }
-.desk-steam path {
+.dk-steam path {
   fill: none;
   stroke: var(--muted);
   stroke-width: 2;
   stroke-linecap: round;
   opacity: 0;
-  animation: desk-steam 2.6s ease-in-out infinite;
+  animation: dk-steam 2.6s ease-in-out infinite;
 }
-.desk-steam path + path {
+.dk-steam path + path {
   animation-delay: 1.3s;
 }
-.desk-leaf {
+.dk-leaf {
   fill: #6f8f5a;
 }
-.dark .desk-leaf {
+.dark .dk-leaf {
   fill: #84a56d;
 }
-.desk-pot {
+.dk-pot {
   fill: #c9a27c;
 }
-.desk-screenlight {
+.dk-screenlight {
   mix-blend-mode: screen;
-  opacity: 0.25;
+  opacity: 0.1;
 }
-.dark .desk-screenlight {
+.dark .dk-screenlight {
   opacity: 0.45;
 }
 
-/* idle: typing */
-.desk-head {
-  animation: desk-bob 0.9s ease-in-out infinite alternate;
+/* ---- seated: typing idle ---- */
+.desk[data-state="seated"] .dk-head {
+  animation: dk-bob 1s ease-in-out infinite alternate;
 }
-.desk-arm-l {
-  animation: desk-type 0.22s ease-in-out infinite alternate;
+.desk[data-state="seated"] .dk-arm-l {
+  animation: dk-type 0.24s ease-in-out infinite alternate;
 }
-.desk-arm-r {
-  animation: desk-type 0.22s ease-in-out 0.11s infinite alternate;
+.desk[data-state="seated"] .dk-arm-r {
+  animation: dk-type 0.24s ease-in-out 0.12s infinite alternate;
 }
 
-/* the launch: fast ease-in out to the right, leaning back from the acceleration */
+/* ---- the rider: seated person + chair ---- */
 .desk-rider {
-  transform: translateX(0);
-  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none;
+  opacity: 1;
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.35s ease-out;
 }
-.desk-lean {
-  transform-origin: 240px 312px;
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+.dk-lean {
+  transform-origin: 260px 368px;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.desk[data-gone] .desk-rider {
-  transform: translateX(1600px);
-  transition: transform 0.42s cubic-bezier(0.7, 0, 1, 0.5);
+/* ride out: accelerates away to the right, leaning back */
+.desk[data-state="gone"] .desk-rider {
+  transform: translateX(1500px);
+  transition: transform 1.05s cubic-bezier(0.55, 0, 0.85, 0.45);
 }
-.desk[data-gone] .desk-lean {
-  transform: rotate(-9deg);
-  transition: transform 0.18s ease-out;
+.desk[data-state="gone"] .dk-lean {
+  transform: rotate(-7deg);
+  transition: transform 0.35s ease-out;
 }
-.desk-speed line {
+/* while he walks back the seated version waits, invisible, beside the desk;
+   on "seated" it fades in and the chair is pulled the last bit to the desk */
+.desk[data-state="returning"] .desk-rider {
+  transform: translateX(110px);
+  opacity: 0;
+  transition: none;
+}
+
+.dk-speed line {
   stroke: var(--fg);
   stroke-width: 3;
   stroke-linecap: round;
 }
-.desk-speed,
-.desk-dust {
+.dk-speed,
+.dk-dust {
   opacity: 0;
 }
-.desk-dust circle {
+.dk-dust {
+  transform-origin: 260px 364px;
+}
+.dk-dust circle {
   fill: var(--muted);
 }
-.desk[data-gone] .desk-speed {
-  animation: desk-flash 0.42s ease-out;
+.desk[data-state="gone"] .dk-speed {
+  animation: dk-flash 0.9s ease-out;
 }
-.desk[data-gone] .desk-dust {
-  animation: desk-dust 0.7s ease-out;
+.desk[data-state="gone"] .dk-dust {
+  animation: dk-dust 1s ease-out;
 }
+
+/* ---- the walker: back in from the right, pulling the chair ---- */
+.desk-walker {
+  opacity: 0;
+  transform: translateX(150px);
+  transition: opacity 0.35s ease-out;
+  pointer-events: none;
+}
+.desk[data-state="returning"] .desk-walker {
+  opacity: 1;
+  transition: none;
+  /* 2.8s: keep in sync with WALK_MS in Desk.tsx */
+  animation: dk-walk-in 2.8s cubic-bezier(0.25, 0.6, 0.35, 1) both;
+}
+.dk-leg {
+  transform-origin: 206px 232px;
+}
+.dk-swing {
+  transform-origin: 206px 146px;
+}
+.desk[data-state="returning"] .dk-leg-a {
+  animation: dk-stride 0.7s ease-in-out infinite alternate;
+}
+.desk[data-state="returning"] .dk-leg-b {
+  animation: dk-stride 0.7s ease-in-out infinite alternate-reverse;
+}
+.desk[data-state="returning"] .dk-swing {
+  animation: dk-arm-swing 0.7s ease-in-out infinite alternate;
+}
+.desk[data-state="returning"] .dk-bob {
+  animation: dk-step 0.35s ease-in-out infinite alternate;
+}
+.desk[data-state="returning"] .dk-caster {
+  animation: dk-roll 0.6s linear infinite;
+}
+
 .desk[data-instant] .desk-rider,
-.desk[data-instant] .desk-lean {
+.desk[data-instant] .dk-lean,
+.desk[data-instant] .desk-walker {
   transition: none;
 }
-.desk[data-instant] .desk-speed,
-.desk[data-instant] .desk-dust {
+.desk[data-instant] .dk-speed,
+.desk[data-instant] .dk-dust {
   animation: none;
 }
 
-@keyframes desk-type {
+@keyframes dk-type {
   to {
     translate: 0 -1.5px;
   }
 }
-@keyframes desk-bob {
+@keyframes dk-bob {
   to {
-    translate: 0 1.2px;
+    translate: 0 1.4px;
   }
 }
-@keyframes desk-steam {
+@keyframes dk-steam {
   0% {
     opacity: 0;
     translate: 0 4px;
@@ -972,47 +1092,80 @@
   }
   100% {
     opacity: 0;
-    translate: 0 -8px;
+    translate: 0 -9px;
   }
 }
-@keyframes desk-flash {
+@keyframes dk-flash {
   0% {
     opacity: 0;
   }
-  25% {
-    opacity: 0.75;
+  20% {
+    opacity: 0.7;
   }
   100% {
     opacity: 0;
   }
 }
-@keyframes desk-dust {
+@keyframes dk-dust {
   0% {
     opacity: 0.6;
     transform: scale(0.6);
   }
   100% {
     opacity: 0;
-    transform: scale(1.6) translateX(-14px);
+    transform: scale(1.6) translateX(-16px);
   }
 }
-.desk-dust {
-  transform-origin: 240px 314px;
+@keyframes dk-walk-in {
+  from {
+    transform: translateX(1500px);
+  }
+  to {
+    transform: translateX(150px);
+  }
+}
+@keyframes dk-stride {
+  from {
+    rotate: 17deg;
+  }
+  to {
+    rotate: -17deg;
+  }
+}
+@keyframes dk-arm-swing {
+  from {
+    rotate: -9deg;
+  }
+  to {
+    rotate: 9deg;
+  }
+}
+@keyframes dk-step {
+  to {
+    translate: 0 -4px;
+  }
+}
+@keyframes dk-roll {
+  to {
+    rotate: -360deg;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .desk-head,
-  .desk-arm-l,
-  .desk-arm-r,
-  .desk-steam path {
+  .desk *,
+  .desk-rider,
+  .desk-walker {
     animation: none !important;
   }
-  .desk[data-gone] .desk-rider {
+  .desk[data-state="gone"] .desk-rider {
     transform: none;
     opacity: 0;
     transition: opacity 0.3s;
   }
-  .desk[data-gone] .desk-lean {
+  .desk[data-state="gone"] .dk-lean {
     transform: none;
+  }
+  .desk[data-state="returning"] .desk-walker {
+    opacity: 0;
   }
 }
