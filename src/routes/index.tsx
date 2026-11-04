@@ -6,6 +6,8 @@ import { Hero } from "@/components/portfolio/Hero";
 import { Trail } from "@/components/portfolio/Trail";
 import { Kit } from "@/components/portfolio/Kit";
 import { Tours } from "@/components/portfolio/Tours";
+import { Wire } from "@/components/portfolio/Wire";
+import { XRay } from "@/components/portfolio/XRay";
 import { Contact, Footer } from "@/components/portfolio/Contact";
 
 const title = "Philipp Dachtler — Fullstack Developer & System Integrator";
@@ -28,7 +30,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   // Runs after this route has hydrated, so the engine never touches markup React is still matching.
-  useEffect(() => initScrollAnimations() ?? undefined, []);
+  useEffect(() => {
+    performance.mark?.("app:hydrated"); // shown in the page-load trace
+    return initScrollAnimations() ?? undefined;
+  }, []);
 
   return (
     <main>
@@ -37,8 +42,10 @@ function Index() {
       <Trail />
       <Kit />
       <Tours />
+      <Wire />
       <Contact />
       <Footer />
+      <XRay />
     </main>
   );
 }

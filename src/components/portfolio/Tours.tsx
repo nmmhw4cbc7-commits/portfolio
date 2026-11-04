@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { Leaf, Compass, ShieldCheck, Mail, Laptop, ArrowUpRight } from "lucide-react";
 import { projects, type Project } from "./data";
 import { SectionHead } from "./Trail";
+import { useXray } from "@/lib/xray";
 
 const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail, laptop: Laptop };
 
@@ -11,8 +12,10 @@ const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail, l
  */
 export function Tours() {
   const n = projects.length;
+  const xray = useXray("Tours");
   return (
     <section
+      {...xray}
       id="tours"
       data-scroll="pin"
       className="relative lg:h-[var(--h)]"
@@ -81,8 +84,10 @@ export function Tours() {
 
 function TourCard({ project, index, total }: { project: Project; index: number; total: number }) {
   const Icon = icons[project.icon];
+  const xray = useXray(`TourCard:${project.title}`);
   return (
     <article
+      {...xray}
       data-scroll="card"
       data-motion
       className="group relative flex flex-col border-t border-fg py-10 lg:h-[min(50vh,480px)] lg:border-l lg:border-t-0 lg:px-10 lg:py-2 lg:first:border-l-0 lg:first:pl-0"

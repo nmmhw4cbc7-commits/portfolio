@@ -1,5 +1,6 @@
 import { ArrowDownRight } from "lucide-react";
 import { profile, tourStats } from "./data";
+import { useXray } from "@/lib/xray";
 
 const lines = [
   { text: "Turning good", shift: -6 },
@@ -9,9 +10,10 @@ const lines = [
 
 export function Hero() {
   const intro = profile.intro.split("\n\n");
+  const xray = useXray("Hero");
 
   return (
-    <section id="top" data-scroll="exit" className="relative pt-28 sm:pt-36">
+    <section {...xray} id="top" data-scroll="exit" className="relative pt-28 sm:pt-36">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div
           data-reveal

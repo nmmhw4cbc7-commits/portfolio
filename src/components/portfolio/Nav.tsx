@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
+import { useXray } from "@/lib/xray";
 
 const links = [
   { href: "#route", label: "Path", n: "01" },
   { href: "#kit", label: "Toolkit", n: "02" },
   { href: "#tours", label: "Work", n: "03" },
-  { href: "#contact", label: "Contact", n: "04" },
+  { href: "#wire", label: "Wire", n: "04" },
+  { href: "#contact", label: "Contact", n: "05" },
 ];
 
 export function Nav() {
   const [raised, setRaised] = useState(false);
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState<boolean | null>(null);
+  const xray = useXray("Nav");
 
   useEffect(() => {
     const onScroll = () => setRaised(window.scrollY > 24);
@@ -30,6 +33,7 @@ export function Nav() {
 
   return (
     <header
+      {...xray}
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
         raised || open
           ? "border-b border-rule bg-bg/90 backdrop-blur-sm"

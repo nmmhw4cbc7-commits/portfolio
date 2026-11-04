@@ -325,3 +325,71 @@
     animation: none !important;
   }
 }
+
+/* ---------- X-ray mode (hold ⌥ / Alt) ---------- */
+.xray body *:not(.xray-layer, .xray-layer *) {
+  outline: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  outline-offset: -1px;
+}
+.xray-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.xray-box.is-scroll {
+  border-style: dashed;
+  border-color: color-mix(in srgb, #3b82f6 80%, transparent);
+  background: none;
+}
+.xray-tag {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  max-width: calc(100% + 2px);
+  overflow: hidden;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.xray-box.is-scroll .xray-tag {
+  top: auto;
+  bottom: -1px;
+  left: auto;
+  right: -1px;
+  background: #3b82f6;
+  color: #fff;
+}
+.xray-hud {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  min-width: 220px;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.xray-hud-title {
+  margin-bottom: 6px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.xray-hud dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 14px;
+}
+.xray-hud dd {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

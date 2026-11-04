@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { profile } from "./data";
+import { useXray } from "@/lib/xray";
 
 const channels = [
   { label: "GitHub profile", href: profile.github },
@@ -8,10 +9,15 @@ const channels = [
 ];
 
 export function Contact() {
+  const xray = useXray("Contact");
   return (
-    <section id="contact" className="mx-auto max-w-[1400px] px-4 pb-20 pt-28 sm:px-8 sm:pt-40">
+    <section
+      {...xray}
+      id="contact"
+      className="mx-auto max-w-[1400px] px-4 pb-20 pt-28 sm:px-8 sm:pt-40"
+    >
       <div className="t-mono flex items-center gap-3" data-reveal>
-        <span className="text-accent">04</span>
+        <span className="text-accent">05</span>
         <span>Contact</span>
         <span
           data-reveal="rule"
@@ -82,11 +88,22 @@ export function Contact() {
 }
 
 export function Footer() {
+  const xray = useXray("Footer");
   return (
-    <footer className="border-t border-rule">
+    <footer {...xray} className="border-t border-rule">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="t-mono flex flex-wrap items-center justify-between gap-3 py-6 text-muted">
           <span>© {new Date().getFullYear()} Philipp Dachtler</span>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("xray:toggle"))}
+            className="group inline-flex items-center gap-2 transition-colors hover:text-fg"
+          >
+            <kbd className="border border-rule px-1.5 py-0.5 font-mono text-[0.7rem] group-hover:border-accent group-hover:text-accent">
+              ⌥
+            </kbd>
+            <span>Hold for x-ray (or tap)</span>
+          </button>
           <span>Planned, built and maintained solo and without AI</span>
         </div>
       </div>

@@ -3,7 +3,8 @@ export const profile = {
   role: "Fullstack Developer & IT System Integration",
   base: "Schifferstadt, Germany",
   email: "allgemein@philipp-dachtler.de",
-  github: "https://github.com/",
+  github: "https://github.com/nmmhw4cbc7-commits",
+  githubUser: "nmmhw4cbc7-commits",
   intro:
     "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.",
 };
@@ -97,8 +98,11 @@ export const projects: Project[] = [
     title: "Jugendkompass",
     text: "A Christian companion app supporting daily faith life and community engagement, designed with care and shipped to both major stores.",
     links: [
-      { label: "App Store", href: "#" },
-      { label: "Play Store", href: "#" },
+      { label: "App Store", href: "https://apps.apple.com/de/app/jugendkompass/id1559123537" },
+      {
+        label: "Play Store",
+        href: "https://play.google.com/store/apps/details?id=io.stephanus.jugendkompass",
+      },
     ],
     difficulty: "Expert",
     stack: ["Flutter", "Dart", "iOS", "Android"],
@@ -109,9 +113,7 @@ export const projects: Project[] = [
     status: "Published",
     title: "Lime Adblocker",
     text: "A lightweight browser adblocker focused on performance and simplicity.",
-    links: [
-      { label: "Lime Adblocker", href: "https://adblocker.philipp-dachtler.de" },
-    ],
+    links: [{ label: "Lime Adblocker", href: "https://adblocker.philipp-dachtler.de" }],
     difficulty: "Intermediate",
     stack: ["Chrome Extension", "Cross-platform"],
     icon: "shield",
@@ -125,44 +127,5 @@ export const projects: Project[] = [
     difficulty: "Expert",
     stack: ["Native macOS App", "Swift", "SwiftUI"],
     icon: "laptop",
-  },
-];
-
-
-export type Kit = { group: string; note: string; items: { name: string; level: number; tag: string }[] };
-
-export const kit: Kit[] = [
-  {
-    group: "Languages",
-    note: "What the tools are written in",
-    items: [
-      { name: "JavaScript", level: 70, tag: "Intermediate" },
-      { name: "TypeScript", level: 68, tag: "Intermediate" },
-      { name: "Python", level: 62, tag: "Intermediate" },
-      { name: "Java", level: 58, tag: "Intermediate" },
-      { name: "C#", level: 55, tag: "Intermediate" },
-    ],
-  },
-  {
-    group: "Frameworks",
-    note: "The gear I reach for first",
-    items: [
-      { name: "Flutter", level: 90, tag: "Advanced" },
-      { name: "React", level: 70, tag: "Intermediate" },
-      { name: "Node.js", level: 66, tag: "Intermediate" },
-      { name: "Swift", level: 60, tag: "Intermediate" },
-      { name: "Docker", level: 58, tag: "Intermediate" },
-    ],
-  },
-  {
-    group: "Systems & Ops",
-    note: "The ground everything stands on",
-    items: [
-      { name: "Windsurf / macOS", level: 95, tag: "Expert" },
-      { name: "Networking & Routing", level: 74, tag: "Hands-on" },
-      { name: "Linux / Unix", level: 66, tag: "Intermediate" },
-      { name: "Git & GitHub", level: 72, tag: "Intermediate" },
-      { name: "Cloud Deployment", level: 60, tag: "Intermediate" },
-    ],
   },
 ];

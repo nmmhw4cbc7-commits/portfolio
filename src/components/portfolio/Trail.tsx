@@ -1,9 +1,11 @@
 import type { CSSProperties } from "react";
 import { stages } from "./data";
+import { useXray } from "@/lib/xray";
 
 export function Trail() {
+  const xray = useXray("Trail");
   return (
-    <section id="route" className="mx-auto max-w-[1400px] px-4 py-24 sm:px-8 sm:py-36">
+    <section {...xray} id="route" className="mx-auto max-w-[1400px] px-4 py-24 sm:px-8 sm:py-36">
       <div className="grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
