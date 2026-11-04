@@ -128,10 +128,13 @@ function TourCard({ project, index, total }: { project: Project; index: number; 
               href={l.href}
               target="_blank"
               rel="noreferrer"
-              className="t-mono group/link inline-flex items-center gap-1.5"
+              className="t-mono swap-host inline-flex items-center gap-1.5"
+              data-scramble-host
             >
-              <span className="ulink">{l.label}</span>
-              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+              <span className="ulink" data-scramble>
+                {l.label}
+              </span>
+              <ArrowUpRight className="arrow-swap size-4" />
             </a>
           ))
         )}

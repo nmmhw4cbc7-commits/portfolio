@@ -9,3 +9,6 @@ declare module "virtual:github-stats" {
   } | null;
   export default stats;
 }
+
+// Injected by vite.config.ts at build time.
+declare const __BUILD__: { sha: string | null; date: string };

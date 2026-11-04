@@ -163,21 +163,24 @@
     white-space: nowrap;
     transition: color 0.35s var(--ease-out);
   }
+  /* the fill grows as a circle from wherever the cursor entered (--mx/--my) */
   .btn::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     background: var(--fg);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.35s var(--ease-out);
+    clip-path: circle(0% at var(--mx, 50%) var(--my, 100%));
+    transition: clip-path 0.55s var(--ease-out);
   }
   .btn:hover {
     color: var(--bg);
   }
   .btn:hover::before {
-    transform: scaleY(1);
+    clip-path: circle(150% at var(--mx, 50%) var(--my, 100%));
+  }
+  .btn:active {
+    scale: 0.97;
   }
   .btn-solid {
     background: var(--accent);
@@ -187,11 +190,51 @@
   .btn-solid::before {
     background: var(--fg);
   }
-  .btn svg {
-    transition: transform 0.35s var(--ease-out);
+  /* corner ticks, like a selection in a design tool */
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--accent), var(--accent)) top left / 6px 1px,
+      linear-gradient(var(--accent), var(--accent)) top left / 1px 6px,
+      linear-gradient(var(--accent), var(--accent)) bottom right / 6px 1px,
+      linear-gradient(var(--accent), var(--accent)) bottom right / 1px 6px;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.15);
+    transition:
+      opacity 0.3s,
+      transform 0.45s var(--ease-out);
   }
-  .btn:hover svg {
-    transform: translate(2px, 2px);
+  .btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .btn-solid::after {
+    --accent: var(--bg);
+  }
+
+  /* arrows leave through one corner and come back through the opposite one */
+  .btn:hover svg,
+  .swap-host:hover .arrow-swap {
+    animation: arrow-swap 0.6s var(--ease-out);
+  }
+  .arrow-dr {
+    --ax: 1;
+    --ay: 1;
+  }
+
+  [data-magnetic] {
+    transition:
+      translate 0.6s var(--ease-out),
+      color 0.35s var(--ease-out);
+  }
+  [data-magnetic][data-pulled] {
+    transition:
+      translate 0.12s linear,
+      color 0.35s var(--ease-out);
   }
 
   .ulink {
@@ -207,6 +250,24 @@
     color: var(--accent);
     background-size: 0% 1px;
     background-position: 100% 100%;
+  }
+}
+
+@keyframes arrow-swap {
+  0% {
+    translate: 0 0;
+  }
+  40% {
+    translate: calc(var(--ax, 1) * 140%) calc(var(--ay, -1) * 140%);
+    opacity: 0;
+  }
+  41% {
+    translate: calc(var(--ax, 1) * -140%) calc(var(--ay, -1) * -140%);
+    opacity: 0;
+  }
+  100% {
+    translate: 0 0;
+    opacity: 1;
   }
 }
 

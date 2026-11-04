@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ArrowDownRight } from "lucide-react";
 import { profile, tourStats } from "./data";
 import { useXray } from "@/lib/xray";
@@ -7,6 +8,33 @@ const lines = [
   { text: "ideas into", shift: 9 },
   { text: "reliable software.", shift: -4, accent: true },
 ];
+
+// Live wall-clock time in Schifferstadt. Renders a placeholder on the server
+// so the markup hydrates cleanly, then ticks once per second.
+function LocalTime() {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const fmt = (opts: Intl.DateTimeFormatOptions) =>
+    now ? new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Berlin", ...opts }).format(now) : "";
+  const time = now ? fmt({ hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "--:--:--";
+  const zone = (now && fmt({ timeZoneName: "short" }).split(" ").pop()) || "CET";
+  const hour = now ? Number(fmt({ hour: "2-digit", hour12: false })) : 12;
+  const awake = hour >= 7 && hour < 23;
+  return (
+    <span
+      className="inline-flex items-center gap-2 tabular-nums"
+      title="Local time in Schifferstadt"
+    >
+      <span className={awake ? "live-dot" : "size-[0.55rem] rounded-full border border-muted"} />
+      {time} {zone}
+      <span className="hidden sm:inline">· {awake ? "probably coding" : "probably asleep"}</span>
+    </span>
+  );
+}
 
 export function Hero() {
   const intro = profile.intro.split("\n\n");
@@ -20,7 +48,10 @@ export function Hero() {
           className="t-mono flex flex-wrap justify-between gap-x-6 gap-y-1 text-muted"
         >
           <span>{profile.role}</span>
-          <span>{profile.base} — 49.38° N, 8.37° E</span>
+          <span className="flex flex-wrap gap-x-4">
+            <span>{profile.base} — 49.38° N, 8.37° E</span>
+            <LocalTime />
+          </span>
         </div>
 
         <h1
@@ -59,12 +90,12 @@ export function Hero() {
             data-reveal
             style={{ "--d": "120ms" } as React.CSSProperties}
           >
-            <a href="#tours" className="btn btn-solid">
-              See the work
-              <ArrowDownRight className="size-4" />
+            <a href="#tours" className="btn btn-solid" data-magnetic data-scramble-host>
+              <span data-scramble>See the work</span>
+              <ArrowDownRight className="arrow-dr size-4" />
             </a>
-            <a href="#contact" className="btn">
-              Get in touch
+            <a href="#contact" className="btn" data-magnetic data-scramble-host>
+              <span data-scramble>Get in touch</span>
             </a>
           </div>
         </div>

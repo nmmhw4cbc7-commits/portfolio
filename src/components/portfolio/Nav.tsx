@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useXray } from "@/lib/xray";
 
 const links = [
@@ -14,6 +14,42 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState<boolean | null>(null);
   const xray = useXray("Nav");
+  const [active, setActive] = useState<string | null>(null);
+  const [marker, setMarker] = useState<{ x: number; w: number } | null>(null);
+  const linkRow = useRef<HTMLDivElement>(null);
+
+  // scroll-spy: the section crossing the upper third of the viewport is "active"
+  useEffect(() => {
+    const sections = links
+      .map((l) => document.querySelector<HTMLElement>(l.href))
+      .filter((el): el is HTMLElement => !!el);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(`#${e.target.id}`);
+      },
+      { rootMargin: "-30% 0px -65% 0px" },
+    );
+    sections.forEach((s) => io.observe(s));
+    const onScroll = () => {
+      if (window.scrollY < window.innerHeight * 0.5) setActive(null);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // slide the marker under the active link
+  useEffect(() => {
+    const measure = () => {
+      const a = active && linkRow.current?.querySelector<HTMLElement>(`a[href="${active}"]`);
+      setMarker(a ? { x: a.offsetLeft, w: a.offsetWidth } : null);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [active]);
 
   useEffect(() => {
     const onScroll = () => setRaised(window.scrollY > 24);
@@ -50,11 +86,28 @@ export function Nav() {
           </span>
         </a>
 
-        <div className="ml-auto hidden items-center gap-7 md:flex">
+        <div ref={linkRow} className="relative ml-auto hidden items-center gap-7 md:flex">
+          <span
+            aria-hidden
+            className="absolute -bottom-[19px] h-[2px] bg-fg transition-[transform,width,opacity] duration-500 ease-[var(--ease-out)]"
+            style={{
+              transform: `translateX(${marker?.x ?? 0}px)`,
+              width: marker?.w ?? 0,
+              opacity: marker ? 1 : 0,
+            }}
+          />
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="group t-mono flex items-baseline gap-1.5">
+            <a
+              key={l.href}
+              href={l.href}
+              aria-current={active === l.href ? "location" : undefined}
+              data-scramble-host
+              className={`group t-mono flex items-baseline gap-1.5 transition-opacity duration-300 ${
+                active && active !== l.href ? "opacity-55 hover:opacity-100" : ""
+              }`}
+            >
               <span className="text-accent">{l.n}</span>
-              <span className="relative">
+              <span className="relative" data-scramble>
                 {l.label}
                 <span className="absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
               </span>
@@ -78,8 +131,13 @@ export function Nav() {
             <span className="hidden sm:inline">{dark ? "Light" : "Dark"}</span>
           </button>
 
-          <a href="#contact" className="btn btn-solid hidden h-9 sm:inline-flex">
-            Let's talk
+          <a
+            href="#contact"
+            className="btn btn-solid hidden h-9 sm:inline-flex"
+            data-magnetic
+            data-scramble-host
+          >
+            <span data-scramble>Let's talk</span>
           </a>
 
           <button

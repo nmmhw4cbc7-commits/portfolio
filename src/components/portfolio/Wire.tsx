@@ -4,11 +4,10 @@ import { SectionHead } from "./Trail";
 import { useXray } from "@/lib/xray";
 
 /*
- * "On the wire": three things measured live in the visitor's browser.
+ * "On the wire": two things measured live in the visitor's browser.
  *  1. Latency: real round trips to /api/ping, compared with what the speed of
  *     light in fibre allows for the distance involved.
  *  2. The curl edition of the site.
- *  3. A traceroute-style breakdown of how this very page load went.
  */
 
 // Light in optical fibre: c / ~1.47 ≈ 204 km per millisecond.
@@ -135,6 +134,7 @@ function Latency() {
           type="button"
           onClick={() => void run()}
           disabled={running}
+          data-scramble
           className="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-accent disabled:opacity-40"
         >
           <RotateCw className={`size-3.5 ${running ? "animate-spin" : ""}`} /> Rerun
@@ -278,199 +278,6 @@ function Curl() {
   );
 }
 
-/* --------------------------------------------------------------- page trace */
-
-type Hop = { name: string; start: number; dur: number; note?: string };
-type Host = {
-  host: string;
-  count: number;
-  bytes: number;
-  hidden: number;
-  third: boolean;
-  proto: string;
-};
-type Trace = {
-  hops: Hop[];
-  total: number;
-  hosts: Host[];
-  requests: number;
-  bytes: number;
-  proto: string;
-  cached: boolean;
-};
-
-function readTrace(): Trace | null {
-  const nav = performance.getEntriesByType("navigation")[0] as
-    PerformanceNavigationTiming | undefined;
-  if (!nav) return null;
-
-  const tlsStart = nav.secureConnectionStart > 0 ? nav.secureConnectionStart : nav.connectEnd;
-  const hydrated = performance.getEntriesByName("app:hydrated")[0]?.startTime;
-
-  const hops: Hop[] = [
-    { name: "redirect", start: nav.redirectStart, dur: nav.redirectEnd - nav.redirectStart },
-    {
-      name: "dns lookup",
-      start: nav.domainLookupStart,
-      dur: nav.domainLookupEnd - nav.domainLookupStart,
-    },
-    { name: "tcp connect", start: nav.connectStart, dur: tlsStart - nav.connectStart },
-    { name: "tls handshake", start: tlsStart, dur: nav.connectEnd - tlsStart },
-    {
-      name: "server (ttfb)",
-      start: nav.requestStart,
-      dur: nav.responseStart - nav.requestStart,
-      note: "SSR",
-    },
-    { name: "html download", start: nav.responseStart, dur: nav.responseEnd - nav.responseStart },
-    {
-      name: "parse → interactive",
-      start: nav.responseEnd,
-      dur: nav.domInteractive - nav.responseEnd,
-    },
-    {
-      name: "domcontentloaded",
-      start: nav.domInteractive,
-      dur: nav.domContentLoadedEventEnd - nav.domInteractive,
-    },
-    {
-      name: "load event",
-      start: nav.domContentLoadedEventEnd,
-      dur: Math.max(0, nav.loadEventEnd - nav.domContentLoadedEventEnd),
-    },
-  ];
-  if (hydrated) hops.push({ name: "react hydrated", start: hydrated, dur: 0, note: "mark" });
-
-  const own = location.host;
-  const map = new Map<string, Host>();
-  let bytes = nav.transferSize;
-  const resources = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
-  for (const r of resources) {
-    let host = own;
-    try {
-      host = new URL(r.name).host;
-    } catch {
-      /* data: urls etc. */
-    }
-    const h = map.get(host) ?? {
-      host,
-      count: 0,
-      bytes: 0,
-      hidden: 0,
-      third: host !== own,
-      proto: r.nextHopProtocol,
-    };
-    h.count += 1;
-    h.bytes += r.transferSize;
-    if (r.transferSize === 0 && r.decodedBodySize === 0) h.hidden += 1;
-    if (r.nextHopProtocol) h.proto = r.nextHopProtocol;
-    bytes += r.transferSize;
-    map.set(host, h);
-  }
-
-  const total = Math.max(nav.loadEventEnd, hydrated ?? 0, ...hops.map((h) => h.start + h.dur));
-  return {
-    hops: hops.map((h) => ({ ...h, start: Math.max(0, h.start), dur: Math.max(0, h.dur) })),
-    total,
-    hosts: [...map.values()].sort((a, b) => Number(a.third) - Number(b.third) || b.count - a.count),
-    requests: resources.length + 1,
-    bytes,
-    proto: nav.nextHopProtocol || "?",
-    cached: nav.transferSize === 0,
-  };
-}
-
-const kb = (b: number) =>
-  b >= 1_000_000 ? `${(b / 1_000_000).toFixed(2)} MB` : `${(b / 1000).toFixed(1)} kB`;
-
-function PageTrace() {
-  const [trace, setTrace] = useState<Trace | null>(null);
-
-  useEffect(() => {
-    const read = () => setTimeout(() => setTrace(readTrace()), 0);
-    if (document.readyState === "complete") read();
-    else window.addEventListener("load", read, { once: true });
-    return () => window.removeEventListener("load", read);
-  }, []);
-
-  if (!trace) {
-    return (
-      <div className="t-mono mt-6 border border-rule p-6 text-muted">
-        waiting for the load event…
-      </div>
-    );
-  }
-
-  return (
-    <div className="mt-6 overflow-hidden border border-fg">
-      <div className="t-mono flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-fg bg-bg-2 px-4 py-3 sm:px-6">
-        <span>
-          <span className="text-accent">$</span> traceroute --this-page-load
-        </span>
-        <span className="text-muted">
-          {trace.proto} · {trace.requests} requests · {kb(trace.bytes)} over the wire
-          {trace.cached ? " · html from cache" : ""}
-        </span>
-      </div>
-
-      <ol className="font-mono text-[0.78rem] leading-tight">
-        {trace.hops.map((h, i) => (
-          <li
-            key={h.name}
-            className="grid grid-cols-[1.75rem_1fr_4.5rem] items-center gap-x-3 border-b border-rule px-4 py-2.5 last:border-b-0 sm:grid-cols-[2rem_11rem_1fr_5rem] sm:px-6"
-          >
-            <span className="text-muted">{String(i + 1).padStart(2, " ")}</span>
-            <span className={h.dur === 0 && !h.note ? "text-muted" : undefined}>
-              {h.name}
-              {h.note && <span className="text-muted"> · {h.note}</span>}
-            </span>
-            <span className="relative col-span-3 row-start-2 mt-2 h-1.5 bg-rule sm:col-span-1 sm:row-start-auto sm:mt-0">
-              <span
-                className="absolute inset-y-0 min-w-[2px] bg-accent"
-                style={{
-                  left: `${(h.start / trace.total) * 100}%`,
-                  width: `${(h.dur / trace.total) * 100}%`,
-                }}
-              />
-            </span>
-            <span className="col-start-3 row-start-1 text-right tabular-nums sm:col-start-auto sm:row-start-auto">
-              {h.note === "mark" ? `@${ms(h.start)}` : h.dur === 0 ? "*" : ms(h.dur)} ms
-            </span>
-          </li>
-        ))}
-      </ol>
-
-      <div className="border-t border-fg">
-        {trace.hosts.map((h) => (
-          <div
-            key={h.host}
-            className="t-mono flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule px-4 py-2.5 last:border-b-0 sm:px-6"
-          >
-            <span className="normal-case">
-              <span className={h.third ? "text-muted" : "text-accent"}>
-                {h.third ? "3rd" : "1st"}
-              </span>{" "}
-              {h.host}
-            </span>
-            <span className="text-muted">
-              {h.count} req ·{" "}
-              {h.hidden === h.count && h.third
-                ? "size hidden (no timing-allow-origin)"
-                : kb(h.bytes)}
-              {h.proto ? ` · ${h.proto}` : ""}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <p className="t-mono border-t border-fg bg-bg-2 px-4 py-3 text-muted sm:px-6">
-        Read from your browser's Navigation & Resource Timing APIs. "*" means the step was skipped
-        (reused connection, cache).
-      </p>
-    </div>
-  );
-}
-
 /* ------------------------------------------------------------------ section */
 
 export function Wire() {
@@ -491,10 +298,6 @@ export function Wire() {
         <div className="flex lg:col-span-5" data-reveal style={{ "--d": "120ms" } as CSSProperties}>
           <Curl />
         </div>
-      </div>
-
-      <div data-reveal className="mt-6">
-        <PageTrace />
       </div>
     </section>
   );
