@@ -1,17 +1,17 @@
 // Theme switch as a sunset / moonrise.
 //
-// Sun and moon sit on opposite ends of a huge invisible wheel whose hub is
-// below the screen. Switching to dark turns the wheel half a revolution
-// (east → west, like the real sky): the sun sinks off the right edge while
-// the moon rises from the left. Switching back keeps turning the same way,
-// so the moon sets and the sun comes up again.
+// Two viewport-sized bodies sweep across the page. Switching to dark, the sun
+// (already up, mid-screen) sinks off the right edge while a giant crescent
+// moon rises from the bottom left and travels all the way across and out on
+// the right. Switching back plays the same thing with the roles swapped.
 //
-// Where the browser supports View Transitions, the new theme also wipes in
-// from the left behind the rising body while the page stays fully visible;
-// the sky layer gets its own transition name so it isn't masked by the wipe.
+// With View Transitions, the new theme is revealed exactly along the centre
+// of the arriving body: the mask edge and the body share one easing curve and
+// both move linearly in it, so they stay locked together for the whole sweep.
+// The sky layer has its own transition name so the wipe doesn't mask it.
 
-const DURATION = 1500;
-const EASE = "cubic-bezier(0.65, 0, 0.35, 1)";
+const DURATION = 2400;
+const EASE = "cubic-bezier(0.55, 0, 0.35, 1)";
 
 type VTDocument = Document & {
   startViewTransition?: (cb: () => void) => { finished: Promise<void> };
@@ -22,18 +22,37 @@ export function switchTheme(toDark: boolean, apply: () => void) {
   if (reduce) return apply();
 
   const doc = document as VTDocument;
+  const geo = geometry();
   if (doc.startViewTransition) {
     const root = document.documentElement;
+    // the wipe in styles.css reads these, so it lines up with the arriving body
+    const W = 2 * geo.vw + geo.D + 4 * geo.margin;
+    root.style.setProperty("--sky-w", `${W}px`);
+    root.style.setProperty("--sky-e", `${geo.D * 0.18}px`);
+    root.style.setProperty("--sky-p0", `${geo.x0 - W / 2}px`);
+    root.style.setProperty("--sky-p1", `${geo.x1 - W / 2}px`);
+    root.style.setProperty("--sky-t", `${DURATION}ms`);
+    root.style.setProperty("--sky-ease", EASE);
     root.dataset["sky"] = toDark ? "dusk" : "dawn";
     const t = doc.startViewTransition(() => {
       apply();
-      playSky(toDark); // mounted inside the update so it gets its own layer
+      playSky(toDark, geo); // mounted inside the update so it gets its own layer
     });
     void t.finished.finally(() => delete root.dataset["sky"]);
   } else {
-    playSky(toDark);
+    playSky(toDark, geo);
     apply();
   }
+}
+
+type Geo = ReturnType<typeof geometry>;
+
+function geometry() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const D = Math.round(Math.max(vh * 1.05, vw * 0.55)); // as big as the screen
+  const margin = 40;
+  return { vw, vh, D, margin, x0: -D / 2 - margin, x1: vw + D / 2 + margin };
 }
 
 function el(css: Partial<CSSStyleDeclaration>, parent?: HTMLElement) {
@@ -43,14 +62,41 @@ function el(css: Partial<CSSStyleDeclaration>, parent?: HTMLElement) {
   return e;
 }
 
-function playSky(toDark: boolean) {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  // radius large enough that a body at 90° is past the screen edge
-  const R = Math.max(vw * 0.62, vh * 0.85);
-  const hubY = vh * 0.32 + R; // the body at the top of the wheel sits at 32% height
-  const size = Math.round(Math.min(130, Math.max(76, vw * 0.08)));
+const SUN = {
+  borderRadius: "50%",
+  background:
+    "radial-gradient(circle at 42% 40%, #ffd9b5 0%, #ff9a52 30%, #ff5a12 62%, #ff4d00 72%)",
+  boxShadow: "0 0 120px 40px rgb(255 77 0 / 0.35), 0 0 320px 120px rgb(255 120 40 / 0.16)",
+};
 
+function moonStyle(D: number) {
+  // a crescent: transparent disc whose inset shadow draws the lit sliver
+  return {
+    borderRadius: "50%",
+    boxShadow: `inset ${D * 0.2}px ${-D * 0.06}px 0 0 #ece8df`,
+    filter: "drop-shadow(0 0 60px rgb(236 232 223 / 0.35))",
+  };
+}
+
+function body(D: number, style: Partial<CSSStyleDeclaration>, parent: HTMLElement) {
+  // outer node moves on x, inner node on y, so x stays affine in the easing
+  const x = el({ position: "absolute", left: "0", top: "0", width: "0", height: "0" }, parent);
+  const y = el({ position: "absolute", left: "0", top: "0", width: "0", height: "0" }, x);
+  el(
+    {
+      position: "absolute",
+      width: `${D}px`,
+      height: `${D}px`,
+      left: `${-D / 2}px`,
+      top: `${-D / 2}px`,
+      ...style,
+    },
+    y,
+  );
+  return { x, y };
+}
+
+function playSky(toDark: boolean, { vw, vh, D, margin, x0, x1 }: Geo) {
   const layer = el({
     position: "fixed",
     inset: "0",
@@ -61,15 +107,16 @@ function playSky(toDark: boolean) {
   layer.setAttribute("aria-hidden", "true");
   layer.className = "sky-layer";
 
-  // stars only appear on the way into the night
+  // stars only appear on the way into the night, behind the moon
   if (toDark) {
-    for (let i = 0; i < 26; i++) {
+    for (let i = 0; i < 40; i++) {
       const s = Math.random() < 0.2 ? 3 : 2;
+      const left = Math.random() * 100;
       const star = el(
         {
           position: "absolute",
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 55}%`,
+          left: `${left}%`,
+          top: `${Math.random() * 70}%`,
           width: `${s}px`,
           height: `${s}px`,
           borderRadius: "50%",
@@ -78,64 +125,58 @@ function playSky(toDark: boolean) {
         },
         layer,
       );
-      star.animate([{ opacity: 0 }, { opacity: 0.9, offset: 0.6 }, { opacity: 0.5 }], {
-        duration: 900,
-        delay: 500 + Math.random() * 700,
+      // each star lights up roughly when the night edge passes over it
+      star.animate([{ opacity: 0 }, { opacity: 0.95, offset: 0.5 }, { opacity: 0 }], {
+        duration: 1400,
+        delay: 250 + (left / 100) * DURATION * 0.75,
         fill: "forwards",
         easing: "ease-out",
       });
     }
   }
 
-  const wheel = el(
-    { position: "absolute", left: `${vw / 2}px`, top: `${hubY}px`, width: "0", height: "0" },
-    layer,
+  const mid = vh * 0.5;
+
+  // the departing body: already up mid-screen, sinks away to the right
+  const leaving = body(D, toDark ? SUN : moonStyle(D), layer);
+  const leaveOpts = {
+    duration: DURATION * 0.62,
+    easing: "cubic-bezier(0.5, 0, 0.75, 0)",
+    fill: "forwards" as const,
+  };
+  leaving.x.animate(
+    [{ transform: `translateX(${vw * 0.5}px)` }, { transform: `translateX(${x1}px)` }],
+    leaveOpts,
+  );
+  leaving.y.animate(
+    [
+      { transform: `translateY(${mid}px) scale(0.8)`, opacity: 0 },
+      { transform: `translateY(${mid + D * 0.05}px) scale(1)`, opacity: 1, offset: 0.15 },
+      { transform: `translateY(${mid + D * 0.45}px) scale(1)`, opacity: 1 },
+    ],
+    leaveOpts,
   );
 
-  const sun = el(
-    {
-      position: "absolute",
-      width: `${size}px`,
-      height: `${size}px`,
-      left: `${-size / 2}px`,
-      top: `${-R - size / 2}px`,
-      borderRadius: "50%",
-      background: "radial-gradient(circle at 40% 38%, #ffd2a8 0%, #ff8a3d 38%, #ff4d00 72%)",
-      boxShadow: "0 0 60px 18px rgb(255 77 0 / 0.45), 0 0 160px 60px rgb(255 120 40 / 0.18)",
-    },
-    wheel,
-  );
-
-  // the moon sits on the opposite end of the wheel; the crescent is an inset shadow
-  const moon = el(
-    {
-      position: "absolute",
-      width: `${size * 0.85}px`,
-      height: `${size * 0.85}px`,
-      left: `${(-size * 0.85) / 2}px`,
-      top: `${R - (size * 0.85) / 2}px`,
-      borderRadius: "50%",
-      boxShadow: `inset ${size * 0.24}px ${-size * 0.08}px 0 0 #ece8df`,
-      filter: "drop-shadow(0 0 22px rgb(236 232 223 / 0.45))",
-      transform: "rotate(180deg)", // upright once the wheel has turned
-    },
-    wheel,
-  );
-  void sun;
-  void moon;
-
-  // light → dark: 0° → 180° (sun sets, moon rises); dark → light: 180° → 360°
-  const from = toDark ? 0 : 180;
-  wheel.animate([{ transform: `rotate(${from}deg)` }, { transform: `rotate(${from + 180}deg)` }], {
+  // the arriving body: rises from the bottom left, crosses the whole page, exits right
+  const arriving = body(D, toDark ? moonStyle(D) : SUN, layer);
+  arriving.x.animate([{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }], {
     duration: DURATION,
     easing: EASE,
     fill: "forwards",
   });
+  arriving.y.animate(
+    [
+      { transform: `translateY(${mid + D * 0.45}px)` },
+      { transform: `translateY(${mid - D * 0.05}px)`, offset: 0.5 },
+      { transform: `translateY(${mid + D * 0.2}px)` },
+    ],
+    { duration: DURATION, easing: "ease-in-out", fill: "forwards" },
+  );
 
   document.body.appendChild(layer);
   layer
-    .animate([{ opacity: 1 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], {
-      duration: DURATION + 700,
+    .animate([{ opacity: 1 }, { opacity: 1, offset: 0.9 }, { opacity: 0 }], {
+      duration: DURATION + 200,
       fill: "forwards",
     })
     .finished.then(() => layer.remove())

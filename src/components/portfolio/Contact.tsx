@@ -30,12 +30,13 @@ export function Contact() {
         data-scroll="enter"
         className="mt-8 font-extrabold uppercase leading-[0.84] tracking-[-0.04em]"
         style={{
-          fontSize: "clamp(2.6rem, 8.6vw, 8.75rem)",
-          fontStretch: "calc(62% + var(--p, 0) * 63%)",
+          // sized so the widest line ("next project" at full stretch) always fits: two lines, max
+          fontSize: "clamp(1.7rem, 8.2vw, 8.75rem)",
+          fontStretch: "calc(62% + var(--p, 0) * 56%)",
         }}
       >
-        <span className="block">Enter your</span>
-        <span className="block">
+        <span className="block whitespace-nowrap">Enter your</span>
+        <span className="block whitespace-nowrap">
           next <span className="text-accent">project</span>
         </span>
       </h2>
