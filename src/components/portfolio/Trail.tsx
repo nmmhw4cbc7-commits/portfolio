@@ -13,7 +13,7 @@ export function Trail() {
               n="01"
               label="Path"
               title="Education"
-              sub="Education, training and where things are heading — infrastructure on one side, software craft on the other."
+              sub="Education, training and where things are heading: infrastructure on one side, software craft on the other."
             />
           </div>
         </div>

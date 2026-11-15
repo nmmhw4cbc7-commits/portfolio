@@ -1,8 +1,8 @@
 <!-- LOVABLE:BEGIN -->
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebashing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
+> published git history, force pushing, or rebashing/amending/squashing commits
+> that are already pushed, as it rewrites history on Lovable's side and the
 > user will likely lose their project history.
 >
 > Commits you push to the connected branch sync back to Lovable and show up in
@@ -29,7 +29,7 @@ docker compose -f docker-compose.base44.yml up -d
 
 `vite.config.ts` uses `@lovable.dev/vite-tanstack-config`'s `defineConfig`. Because
 the config object contains a `tanstackStart` key, the wrapper treats the whole
-object as its `options` and only merges the `vite` sub-key into the Vite config —
+object as its `options` and only merges the `vite` sub-key into the Vite config:
 a top-level `server` key is silently ignored. The dev-server host/allowedHosts
 settings therefore live under `vite.server` (with `host: true` and
 `allowedHosts: true`) so the preview's external hostname is accepted.

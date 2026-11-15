@@ -1,10 +1,23 @@
 import type { CSSProperties } from "react";
-import { Leaf, Compass, ShieldCheck, Mail, Laptop, ArrowUpRight } from "lucide-react";
+import {
+  LeafIcon,
+  CompassIcon,
+  ShieldCheckIcon,
+  EnvelopeIcon,
+  LaptopIcon,
+  ArrowUpRightIcon,
+} from "@phosphor-icons/react";
 import { projects, type Project } from "./data";
 import { SectionHead } from "./Trail";
 import { useXray } from "@/lib/xray";
 
-const icons = { leaf: Leaf, compass: Compass, shield: ShieldCheck, mail: Mail, laptop: Laptop };
+const icons = {
+  leaf: LeafIcon,
+  compass: CompassIcon,
+  shield: ShieldCheckIcon,
+  mail: EnvelopeIcon,
+  laptop: LaptopIcon,
+};
 
 /*
  * Desktop: the section is pinned and scrolling moves the project strip sideways.
@@ -101,7 +114,7 @@ function TourCard({ project, index, total }: { project: Project; index: number; 
           <span className="text-muted">{project.status}</span>
         </div>
         <span className="grid size-14 shrink-0 place-items-center bg-fg text-bg transition-[background-color,color,transform] duration-500 ease-[var(--ease-out)] group-hover:-rotate-12 group-hover:bg-accent group-hover:text-on-accent">
-          <Icon className="size-6" strokeWidth={1.6} aria-hidden />
+          <Icon className="size-6" weight="light" aria-hidden />
         </span>
       </div>
 
@@ -134,7 +147,7 @@ function TourCard({ project, index, total }: { project: Project; index: number; 
               <span className="ulink" data-scramble>
                 {l.label}
               </span>
-              <ArrowUpRight className="arrow-swap size-4" />
+              <ArrowUpRightIcon className="arrow-swap size-4" />
             </a>
           ))
         )}

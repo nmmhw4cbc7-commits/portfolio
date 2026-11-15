@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { Check, Copy, RotateCw } from "lucide-react";
+import { CheckIcon, CopyIcon, ArrowClockwiseIcon } from "@phosphor-icons/react";
 import { SectionHead } from "./Trail";
 import { useXray } from "@/lib/xray";
 
@@ -137,13 +137,13 @@ function Latency() {
           data-scramble
           className="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-accent disabled:opacity-40"
         >
-          <RotateCw className={`size-3.5 ${running ? "animate-spin" : ""}`} /> Rerun
+          <ArrowClockwiseIcon className={`size-3.5 ${running ? "animate-spin" : ""}`} /> Rerun
         </button>
       </div>
 
       <div className="mt-8 flex items-end gap-4">
         <span className="text-[clamp(3.5rem,9vw,7rem)] font-extrabold leading-[0.8] tracking-[-0.05em] tabular-nums">
-          {best != null ? ms(best) : "—"}
+          {best != null ? ms(best) : "-"}
         </span>
         <span className="t-mono pb-1 text-muted">
           ms round trip · best of {samples.length || SAMPLES}
@@ -262,9 +262,9 @@ function Curl() {
           {CURL}
         </span>
         {copied ? (
-          <Check className="size-4 shrink-0 text-accent" />
+          <CheckIcon className="size-4 shrink-0 text-accent" />
         ) : (
-          <Copy className="size-4 shrink-0 opacity-60 group-hover:text-accent group-hover:opacity-100" />
+          <CopyIcon className="size-4 shrink-0 opacity-60 group-hover:text-accent group-hover:opacity-100" />
         )}
       </button>
 

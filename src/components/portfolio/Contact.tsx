@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from "react";
-import { ArrowUpRight, Check, Copy } from "lucide-react";
+import { ArrowUpRightIcon, CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { profile } from "./data";
 import { useXray } from "@/lib/xray";
 
@@ -59,7 +59,7 @@ export function Contact() {
                 data-magnetic
                 className="grid size-12 shrink-0 place-items-center overflow-hidden bg-accent text-on-accent"
               >
-                <ArrowUpRight className="arrow-swap size-5" />
+                <ArrowUpRightIcon className="arrow-swap size-5" />
               </span>
             </a>
             <CopyEmail />
@@ -81,7 +81,7 @@ export function Contact() {
                     </span>
                     {c.label}
                   </span>
-                  <ArrowUpRight className="arrow-swap size-6 text-muted transition-colors duration-500 group-hover:text-accent" />
+                  <ArrowUpRightIcon className="arrow-swap size-6 text-muted transition-colors duration-500 group-hover:text-accent" />
                 </a>
               </li>
             ))}
@@ -115,7 +115,7 @@ function CopyEmail() {
       aria-label="Copy email address"
       className="relative grid size-12 shrink-0 place-items-center border border-fg transition-colors duration-300 hover:bg-fg hover:text-bg"
     >
-      {copied ? <Check className="size-5 text-accent" /> : <Copy className="size-5" />}
+      {copied ? <CheckIcon className="size-5 text-accent" /> : <CopyIcon className="size-5" />}
       <span
         aria-live="polite"
         className={`t-mono pointer-events-none absolute -top-8 right-0 whitespace-nowrap bg-fg px-2 py-1 text-bg transition-[opacity,translate] duration-300 ${

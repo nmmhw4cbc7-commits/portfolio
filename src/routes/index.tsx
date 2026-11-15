@@ -12,7 +12,7 @@ import { XRay } from "@/components/portfolio/XRay";
 import { PrintCV } from "@/components/portfolio/PrintCV";
 import { Contact, Footer } from "@/components/portfolio/Contact";
 
-const title = "Philipp Dachtler — Fullstack Developer & System Integrator";
+const title = "Philipp Dachtler | Fullstack Developer & System Integrator";
 const description =
   "Portfolio of Philipp Dachtler: fullstack web apps, Flutter mobile software and IT system integration from Mannheim & Schifferstadt, Germany.";
 

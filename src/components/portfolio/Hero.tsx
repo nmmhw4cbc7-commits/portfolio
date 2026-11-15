@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowDownRight } from "lucide-react";
+import { ArrowDownRightIcon } from "@phosphor-icons/react";
 import { profile, tourStats } from "./data";
 import { useXray } from "@/lib/xray";
 
@@ -49,7 +49,7 @@ export function Hero() {
         >
           <span>{profile.role}</span>
           <span className="flex flex-wrap gap-x-4">
-            <span>{profile.base} — 49.38° N, 8.37° E</span>
+            <span>{profile.base} · 49.38° N, 8.37° E</span>
             <LocalTime />
           </span>
         </div>
@@ -92,7 +92,7 @@ export function Hero() {
           >
             <a href="#tours" className="btn btn-solid" data-magnetic data-scramble-host>
               <span data-scramble>See the work</span>
-              <ArrowDownRight className="arrow-dr size-4" />
+              <ArrowDownRightIcon className="arrow-dr size-4" />
             </a>
             <a href="#contact" className="btn" data-magnetic data-scramble-host>
               <span data-scramble>Get in touch</span>
