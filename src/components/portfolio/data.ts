@@ -2,7 +2,7 @@ export const profile = {
   name: "Philipp Dachtler",
   role: "Fullstack Developer & IT System Integration",
   base: "Schifferstadt, Germany",
-  email: "allgemein@philipp-dachtler.de",
+  email: "connect@philipp-dachtler.de",
   github: "https://github.com/nmmhw4cbc7-commits",
   githubUser: "nmmhw4cbc7-commits",
   linkedin: "https://www.linkedin.com/in/philipp-b22220421/",
