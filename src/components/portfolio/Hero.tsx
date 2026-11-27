@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowDownRightIcon } from "@phosphor-icons/react";
-import { profile, tourStats } from "./data";
+import { profile } from "./data";
 import { useXray } from "@/lib/xray";
 
 const lines = [
@@ -98,27 +98,6 @@ export function Hero() {
             </a>
           </div>
         </div>
-
-        <dl className="mt-16 grid grid-cols-2 lg:grid-cols-4">
-          {tourStats.map((s, i) => (
-            <div
-              key={s.label}
-              data-reveal
-              style={{ "--d": `${i * 90}ms` } as React.CSSProperties}
-              className="group relative border-t border-rule py-6 pr-4 lg:border-l lg:pl-5 lg:first:border-l-0 lg:first:pl-0"
-            >
-              <span className="absolute left-0 top-[-1px] h-[2px] w-0 bg-accent transition-[width] duration-500 ease-out group-hover:w-full" />
-              <dt className="t-mono flex gap-2 text-muted">
-                <span className="text-accent">0{i + 1}</span>
-                {s.label}
-              </dt>
-              <dd className="mt-5 text-[clamp(1.6rem,3vw,2.5rem)] font-extrabold leading-none tracking-[-0.04em] [font-stretch:110%]">
-                {s.value}
-              </dd>
-              <dd className="mt-2 text-sm text-muted">{s.unit}</dd>
-            </div>
-          ))}
-        </dl>
       </div>
 
       <Band />

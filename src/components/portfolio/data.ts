@@ -1,3 +1,12 @@
+const BIRTHDAY = { year: 2009, month: 8, day: 16 };
+
+/** Current age, recomputed on every call so it ticks over on the 16th of August. */
+export function age(now = new Date()) {
+  const m = now.getMonth() + 1;
+  const hadBirthday = m > BIRTHDAY.month || (m === BIRTHDAY.month && now.getDate() >= BIRTHDAY.day);
+  return now.getFullYear() - BIRTHDAY.year - (hadBirthday ? 0 : 1);
+}
+
 export const profile = {
   name: "Philipp Dachtler",
   role: "Fullstack Developer & IT System Integration",
@@ -7,16 +16,10 @@ export const profile = {
   githubUser: "nmmhw4cbc7-commits",
   linkedin: "https://www.linkedin.com/in/philipp-b22220421/",
   website: "https://www.philipp-dachtler.de",
-  intro:
-    "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.\n\nGot an idea for your business or something just for yourself? Let's talk about it.",
+  get intro() {
+    return `I'm a ${age()}-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.\n\nGot an idea for your business or something just for yourself? Let's talk about it.`;
+  },
 };
-
-export const tourStats = [
-  { label: "Home base", value: "Schifferstadt", unit: "Rhein-Neckar" },
-  { label: "Apps shipped", value: "3", unit: "iOS + Android" },
-  { label: "Primary stack", value: "Fullstack", unit: "+ Infrastructure" },
-  { label: "Status", value: "Open", unit: "for new projects" },
-];
 
 export type Stage = {
   km: string;

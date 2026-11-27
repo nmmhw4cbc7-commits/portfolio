@@ -97,10 +97,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Philipp Dachtler | Fullstack Developer & System Integrator" },
+      { title: "Philipp Dachtler" },
       {
         name: "description",
-        content: "Fullstack developer and IT system integration specialist from Mannheim, Germany.",
+        content:
+          "Philipp Dachtler from Schifferstadt. IT specialist in system integration who builds apps, websites and software.",
       },
       { name: "author", content: "Philipp Dachtler" },
       { property: "og:type", content: "website" },

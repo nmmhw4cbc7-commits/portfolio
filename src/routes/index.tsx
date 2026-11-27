@@ -11,22 +11,24 @@ import { Wire } from "@/components/portfolio/Wire";
 import { XRay } from "@/components/portfolio/XRay";
 import { PrintCV } from "@/components/portfolio/PrintCV";
 import { Contact, Footer } from "@/components/portfolio/Contact";
+import { age } from "@/components/portfolio/data";
 
-const title = "Philipp Dachtler | Fullstack Developer & System Integrator";
-const description =
-  "Portfolio of Philipp Dachtler: fullstack web apps, Flutter mobile software and IT system integration from Mannheim & Schifferstadt, Germany.";
+const title = "Philipp Dachtler";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "profile" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => {
+    const description = `Philipp Dachtler, ${age()}, from Schifferstadt. IT specialist in system integration who builds apps, websites and software.`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "profile" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   component: Index,
 });
 
