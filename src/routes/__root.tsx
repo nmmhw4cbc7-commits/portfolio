@@ -37,7 +37,7 @@ function NotFoundComponent() {
 
 // After a new deploy, a tab that is still open on the old version asks for
 // JS chunks whose hashed filenames no longer exist. Reloading picks up the
-// new build; the session flag stops a reload loop if something else is wrong.
+// new build; the timestamp stops a reload loop if something else is wrong.
 const STALE_CHUNK =
   /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS|Loading chunk .* failed/i;
 
@@ -49,8 +49,11 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
     if (STALE_CHUNK.test(message)) {
       try {
-        if (!sessionStorage.getItem("reloaded-for-new-build")) {
-          sessionStorage.setItem("reloaded-for-new-build", "1");
+        // allow one reload per minute, so every new deploy recovers but a real
+        // outage can't trap the tab in a reload loop
+        const last = Number(sessionStorage.getItem("reloaded-for-new-build") ?? 0);
+        if (Date.now() - last > 60_000) {
+          sessionStorage.setItem("reloaded-for-new-build", String(Date.now()));
           window.location.reload();
         }
       } catch {
