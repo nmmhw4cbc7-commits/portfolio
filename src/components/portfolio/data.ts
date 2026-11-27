@@ -8,14 +8,14 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/philipp-b22220421/",
   website: "https://www.philipp-dachtler.de",
   intro:
-    "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.",
+    "I'm a 17-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.\n\nGot an idea for your business or something just for yourself? Let's talk about it.",
 };
 
 export const tourStats = [
   { label: "Home base", value: "Schifferstadt", unit: "Rhein-Neckar" },
   { label: "Apps shipped", value: "3", unit: "iOS + Android" },
   { label: "Primary stack", value: "Fullstack", unit: "+ Infrastructure" },
-  { label: "Status", value: "Open", unit: "for collaborations" },
+  { label: "Status", value: "Open", unit: "for new projects" },
 ];
 
 export type Stage = {
@@ -60,7 +60,7 @@ export const stages: Stage[] = [
     kind: "Craft",
     title: "Shipping software in the open",
     place: "Flutter · React · Swift",
-    text: "Published mobile apps, commercial client websites and fullstack tools built alongside the day job.",
+    text: "Published mobile apps, websites and fullstack tools, built in my free time and out of curiosity.",
   },
   {
     km: "SUMMIT",
@@ -68,7 +68,7 @@ export const stages: Stage[] = [
     kind: "Trajectory",
     title: "Advanced Fullstack & Cloud Engineering",
     place: "Cloud architecture · automation",
-    text: "Expanding into automated workflows, scalable cloud infrastructure, and custom web applications.",
+    text: "Expanding into automated workflows, scalable cloud infrastructure, and custom web applications that fit how a business actually works.",
   },
 ];
 
@@ -86,9 +86,9 @@ export type Project = {
 export const projects: Project[] = [
   {
     tag: "Web Development",
-    status: "Client project",
+    status: "Live",
     title: "GaLaBau Diwold",
-    text: "A custom-crafted web presence for a landscaping and gardening enterprise. Responsive layouts, calm modern design and a clear presentation of services.",
+    text: "A web presence for a local landscaping and gardening business. Responsive layouts, calm modern design and a clear presentation of services.",
     links: [{ label: "GaLaBau Diwold", href: "https://galabau-diwold.de" }],
     difficulty: "Intermediate",
     stack: ["Web", "Responsive", "Design"],

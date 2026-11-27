@@ -44,9 +44,8 @@ export function Contact() {
 
       <div className="mt-16 grid gap-12 border-t border-fg pt-10 lg:grid-cols-12">
         <p className="t-body max-w-md text-muted lg:col-span-5" data-reveal>
-          Have a project in mind or need help with full-stack development? Let's connect. Pick what
-          fits, a hobby project to build together or tailored software for your company, and I'll
-          get back to you.
+          Looking for a software solution for your company, or have an idea for something private?
+          Tell me what you have in mind and I'll get back to you.
         </p>
 
         <div className="lg:col-span-7">

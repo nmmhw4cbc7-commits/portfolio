@@ -11,16 +11,15 @@ const ENDPOINT = `https://formsubmit.co/ajax/${profile.email}`;
 
 const topics = [
   { id: "hobby", label: "Hobby project", hint: "Build something together, just for fun" },
-  { id: "business", label: "Custom software", hint: "A tailored solution for your company" },
-  { id: "freelance", label: "Freelance / contract", hint: "Extra hands for an existing team" },
+  { id: "private", label: "Private project", hint: "An app or website just for you" },
+  { id: "business", label: "For your company", hint: "Software that fits how you work" },
   { id: "other", label: "Something else", hint: "Questions, feedback, just saying hi" },
 ] as const;
 
 type TopicId = (typeof topics)[number]["id"];
 type Status = "idle" | "sending" | "sent" | "error";
 
-const budgets = ["< 2k €", "2–5k €", "5–15k €", "15k € +", "Not sure yet"];
-const timelines = ["ASAP", "1–3 months", "3–6 months", "Flexible"];
+const timelines = ["Soon", "In the next few months", "No rush"];
 
 const field =
   "w-full border-b border-rule bg-transparent py-3 text-lg outline-none transition-colors placeholder:text-muted/70 focus:border-accent";
@@ -29,7 +28,7 @@ const label = "t-mono text-muted";
 export function ContactForm() {
   const [topic, setTopic] = useState<TopicId>("hobby");
   const [status, setStatus] = useState<Status>("idle");
-  const isBusiness = topic === "business" || topic === "freelance";
+  const isBusiness = topic === "business";
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -130,21 +129,10 @@ export function ContactForm() {
       </div>
 
       {isBusiness && (
-        <div className="grid gap-8 sm:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2">
           <label className="block">
             <span className={label}>Company</span>
             <input name="company" autoComplete="organization" className={field} />
-          </label>
-          <label className="block">
-            <span className={label}>Budget</span>
-            <select name="budget" defaultValue="" className={field}>
-              <option value="" disabled>
-                Select…
-              </option>
-              {budgets.map((b) => (
-                <option key={b}>{b}</option>
-              ))}
-            </select>
           </label>
           <label className="block">
             <span className={label}>Timeline</span>

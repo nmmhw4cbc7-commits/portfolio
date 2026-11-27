@@ -76,7 +76,7 @@ export function Trail() {
         <Philosophy
           mark="A"
           title="Reliability & usability"
-          text="Focused on pragmatism and stability. I build clean, efficient software that solves practical problems without unnecessary complexity."
+          text="Focused on pragmatism and stability. I build clean, efficient software that solves practical problems, for teams and for everyday use, without unnecessary complexity."
         />
         <Philosophy
           mark="B"

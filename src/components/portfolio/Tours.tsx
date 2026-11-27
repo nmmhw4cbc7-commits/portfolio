@@ -40,7 +40,7 @@ export function Tours() {
             n="03"
             label="Work"
             title="Selected work"
-            sub="Production applications, live client websites and things still in the making."
+            sub="Apps in the stores, websites that are live and things still in the making."
           />
         </div>
 
