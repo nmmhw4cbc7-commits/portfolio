@@ -347,22 +347,6 @@
     -webkit-text-fill-color: currentColor;
   }
 
-  @keyframes pulse-dot {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
-    }
-    50% {
-      box-shadow: 0 0 0 8px transparent;
-    }
-  }
-  .live-dot {
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
-    background: var(--accent);
-    animation: pulse-dot 2s var(--ease-io) infinite;
-  }
 }
 
 /* Kill all motion when the user asks for it */
@@ -381,8 +365,7 @@
     transform: none !important;
     opacity: 1 !important;
   }
-  .marquee,
-  .live-dot {
+  .marquee {
     animation: none !important;
   }
 }

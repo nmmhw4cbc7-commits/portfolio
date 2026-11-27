@@ -143,7 +143,7 @@ export function Kit() {
             n="02"
             label="Toolkit"
             title="The toolkit"
-            sub="Languages, frameworks and systems that power my work."
+            sub="Languages, frameworks and systems that power my work. I also run my own VPS setups with Linux, Docker and Nginx, from the first server setup to deployment."
             invert
           />
         </div>

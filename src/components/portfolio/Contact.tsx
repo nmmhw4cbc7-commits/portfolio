@@ -95,7 +95,6 @@ export function Contact() {
           </ul>
 
           <p className="t-mono mt-8 flex items-center gap-3 text-muted" data-reveal>
-            <span className="live-dot" />
             {profile.base}
           </p>
         </div>

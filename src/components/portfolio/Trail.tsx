@@ -36,7 +36,7 @@ export function Trail() {
             >
               <span className="relative mt-1.5 grid size-[15px] place-items-center bg-bg">
                 {s.current ? (
-                  <span className="live-dot" />
+                  <span className="size-[9px] rotate-45 bg-accent" />
                 ) : (
                   <span className="size-[7px] rotate-45 border border-fg bg-bg" />
                 )}

@@ -153,6 +153,8 @@ export const frameworks: Tech[] = [
 export const systems: Tech[] = [
   { name: "macOS", icon: "devicon-apple-original" },
   { name: "Linux", icon: "devicon-linux-plain" },
+  { name: "VPS", icon: "devicon-ubuntu-plain" },
+  { name: "Nginx", icon: "devicon-nginx-original" },
   { name: "Git", icon: "devicon-git-plain" },
   { name: "VS Code", icon: "devicon-vscode-plain" },
 ];

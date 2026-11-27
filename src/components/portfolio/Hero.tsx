@@ -29,7 +29,6 @@ function LocalTime() {
       className="inline-flex items-center gap-2 tabular-nums"
       title="Local time in Schifferstadt"
     >
-      <span className={awake ? "live-dot" : "size-[0.55rem] rounded-full border border-muted"} />
       {time} {zone}
       <span className="hidden sm:inline">· {awake ? "probably coding" : "probably asleep"}</span>
     </span>
