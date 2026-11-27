@@ -80,9 +80,13 @@ export function Nav() {
     >
       <nav className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-4 sm:px-8">
         <a href="#top" className="group flex items-center gap-3">
-          <span className="grid size-9 place-items-center bg-fg text-[0.8rem] font-extrabold tracking-tight text-bg transition-colors duration-300 group-hover:bg-accent group-hover:text-on-accent">
-            PD
-          </span>
+          <img
+            src="/logo.png"
+            alt="Philipp Dachtler logo"
+            width={36}
+            height={36}
+            className="size-9 transition-transform duration-300 group-hover:scale-110"
+          />
           <span className="hidden text-[0.95rem] font-semibold tracking-tight sm:inline">
             Philipp Dachtler
           </span>
