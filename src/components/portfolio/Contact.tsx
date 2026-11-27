@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from "react";
 import { ArrowUpRightIcon, CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { profile } from "./data";
 import { useXray } from "@/lib/xray";
+import { ContactForm } from "./ContactForm";
 
 const channels = [
   { label: "GitHub profile", href: profile.github },
@@ -43,10 +44,17 @@ export function Contact() {
 
       <div className="mt-16 grid gap-12 border-t border-fg pt-10 lg:grid-cols-12">
         <p className="t-body max-w-md text-muted lg:col-span-5" data-reveal>
-          Have a project in mind or need help with full-stack development? Let's connect.
+          Have a project in mind or need help with full-stack development? Let's connect. Pick what
+          fits, a hobby project to build together or tailored software for your company, and I'll
+          get back to you.
         </p>
 
         <div className="lg:col-span-7">
+          <div data-reveal className="mb-16">
+            <ContactForm />
+          </div>
+
+          <p className="t-mono mb-4 text-muted">Or write directly</p>
           <div data-reveal className="flex items-center gap-3 border-b border-rule pb-6">
             <a
               href={`mailto:${profile.email}`}
