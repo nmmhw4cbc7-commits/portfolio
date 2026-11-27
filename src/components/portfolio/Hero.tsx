@@ -106,7 +106,7 @@ export function Hero() {
 }
 
 function Band() {
-  const words = ["Fullstack Developer", "IT System Integration", "Flutter", "React", "Swift"];
+  const words = ["Web & Mobile", "IT System Integration", "Flutter", "React", "Swift"];
   const row = [...words, ...words];
   return (
     <div

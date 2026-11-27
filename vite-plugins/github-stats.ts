@@ -25,7 +25,14 @@ export type GithubStats = {
 const VIRTUAL_ID = "virtual:github-stats";
 const RESOLVED_ID = "\0" + VIRTUAL_ID;
 
-type Repo = { name: string; fork: boolean; languages_url: string };
+type Repo = { full_name: string; fork: boolean; languages_url: string; pushed_at: string };
+
+/*
+ * Languages where only the most active repos count. Lots of small HTML
+ * experiments would otherwise drown out the real work, so HTML is measured
+ * across the 3 repos with the most commits only.
+ */
+const TOP_ONLY: Record<string, number> = { HTML: 3 };
 
 export function githubStats(user: string): Plugin {
   let stats: Promise<GithubStats | null> | undefined;
@@ -71,6 +78,21 @@ async function collect(user: string): Promise<GithubStats | null> {
     const own = repos.filter((r) => !r.fork);
     const perRepo = await Promise.all(own.map((r) => get<Record<string, number>>(r.languages_url)));
 
+    // Commit counts are only needed for repos that contain a capped language.
+    const capped = own.filter((_, i) => Object.keys(perRepo[i]!).some((l) => l in TOP_ONLY));
+    const commits = await commitCounts(capped, headers);
+    for (const [lang, keep] of Object.entries(TOP_ONLY)) {
+      const ranked = own
+        .map((r, i) => ({ r, i }))
+        .filter(({ i }) => lang in perRepo[i]!)
+        .sort((a, b) =>
+          commits
+            ? (commits.get(b.r.full_name) ?? 0) - (commits.get(a.r.full_name) ?? 0)
+            : Date.parse(b.r.pushed_at) - Date.parse(a.r.pushed_at),
+        );
+      for (const { i } of ranked.slice(keep)) delete perRepo[i]![lang];
+    }
+
     const totals = new Map<string, { bytes: number; repos: number }>();
     for (const langs of perRepo) {
       for (const [name, bytes] of Object.entries(langs)) {
@@ -95,6 +117,38 @@ async function collect(user: string): Promise<GithubStats | null> {
   } catch (error) {
     console.warn(
       `[github-stats] skipped, the toolkit panel will be hidden: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    return null;
+  }
+}
+
+/**
+ * Commits on the default branch per repo, read from the `last` page link of a
+ * one-per-page commit listing. Returns null if any request fails (usually the
+ * unauthenticated rate limit), and the caller then ranks by last push instead.
+ */
+async function commitCounts(
+  repos: Repo[],
+  headers: Record<string, string>,
+): Promise<Map<string, number> | null> {
+  try {
+    const counts = await Promise.all(
+      repos.map(async (r) => {
+        const res = await fetch(`https://api.github.com/repos/${r.full_name}/commits?per_page=1`, {
+          headers,
+          signal: AbortSignal.timeout(10_000),
+        });
+        if (res.status === 409) return [r.full_name, 0] as const; // empty repo
+        if (!res.ok) throw new Error(`${res.status} for ${r.full_name} commits`);
+        const last = /[?&]page=(\d+)>; rel="last"/.exec(res.headers.get("link") ?? "");
+        const n = last ? Number(last[1]) : ((await res.json()) as unknown[]).length;
+        return [r.full_name, n] as const;
+      }),
+    );
+    return new Map(counts);
+  } catch (error) {
+    console.warn(
+      `[github-stats] commit counts unavailable, ranking by last push: ${error instanceof Error ? error.message : String(error)}`,
     );
     return null;
   }

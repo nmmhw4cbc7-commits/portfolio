@@ -9,7 +9,7 @@ export function age(now = new Date()) {
 
 export const profile = {
   name: "Philipp Dachtler",
-  role: "Fullstack Developer & IT System Integration",
+  role: "Developer & IT System Integration",
   base: "Schifferstadt, Germany",
   email: "connect@philipp-dachtler.de",
   github: "https://github.com/nmmhw4cbc7-commits",
@@ -17,7 +17,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/philipp-b22220421/",
   website: "https://www.philipp-dachtler.de",
   get intro() {
-    return `I'm a ${age()}-year-old developer from Schifferstadt, Germany.\n\nI build full-stack web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.\n\nGot an idea for your business or something just for yourself? Let's talk about it.`;
+    return `I'm a ${age()}-year-old developer from Schifferstadt, Germany.\n\nI build web and mobile software, somewhere between design, code, and figuring out how to make an idea actually work. I like clean software, thoughtful details, and building things that are genuinely useful.\n\nGot an idea for your business or something just for yourself? Let's talk about it.`;
   },
 };
 
@@ -63,13 +63,13 @@ export const stages: Stage[] = [
     kind: "Craft",
     title: "Shipping software in the open",
     place: "Flutter · React · Swift",
-    text: "Published mobile apps, websites and fullstack tools, built in my free time and out of curiosity.",
+    text: "Published mobile apps, websites and small tools, built in my free time and out of curiosity.",
   },
   {
     km: "SUMMIT",
     year: "Next",
     kind: "Trajectory",
-    title: "Advanced Fullstack & Cloud Engineering",
+    title: "Software & Cloud Engineering",
     place: "Cloud architecture · automation",
     text: "Expanding into automated workflows, scalable cloud infrastructure, and custom web applications that fit how a business actually works.",
   },
